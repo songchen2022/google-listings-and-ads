@@ -2,7 +2,8 @@
  * External dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Button } from '@wordpress/components';
+import { Panel, PanelBody, PanelRow } from '@wordpress/components';
+import { more } from '@wordpress/icons';
 
 
 /**
@@ -13,8 +14,11 @@ import './index.scss';
 const GetStartedPage = ( { query } ) => {
 	return (
 		<div className="changeme">
-			Hello World!
-			<Button isPrimary>Click Me!</Button>
+		    <Panel header="My Panel">
+		        <PanelBody title="My Block Settings" icon={ more } initialOpen={ true }>
+		            <PanelRow>My Panel Inputs and Labels</PanelRow>
+		        </PanelBody>
+		    </Panel>
 		</div>
 	);
 };
