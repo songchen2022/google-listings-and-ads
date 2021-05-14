@@ -34,8 +34,10 @@ class GoogleAdsCleanupServices {
 		'Campaign',
 		'CampaignBudget',
 		'ConversionAction',
+		'Customer',
 		'GoogleAds',
 		'MerchantCenterLink',
+		'ShoppingPerformanceView',
 	];
 
 	/**
@@ -76,6 +78,7 @@ class GoogleAdsCleanupServices {
 		'ConversionAdjustmentUpload',
 		'ConversionUpload',
 		'CurrencyConstant',
+		'CustomAudience',
 		'CustomerClientLink',
 		'CustomerClient',
 		'CustomerExtensionSetting',
@@ -83,11 +86,12 @@ class GoogleAdsCleanupServices {
 		'CustomerLabel',
 		'CustomerManagerLink',
 		'CustomerNegativeCriterion',
-		'Customer',
 		'CustomerUserAccess',
+		'CustomerUserAccessInvitation',
 		'CustomInterest',
 		'DetailPlacementView',
 		'DisplayKeywordView',
+		'DistanceView',
 		'DomainCategory',
 		'DynamicSearchAdsSearchTermView',
 		'ExpandedLandingPageView',
@@ -136,13 +140,13 @@ class GoogleAdsCleanupServices {
 		'SearchTermView',
 		'SharedCriterion',
 		'SharedSet',
-		'ShoppingPerformanceView',
 		'ThirdPartyAppAnalyticsLink',
 		'TopicConstant',
 		'TopicView',
 		'UserData',
 		'UserInterest',
 		'UserList',
+		'UserLocationView',
 		'Video',
 	];
 
