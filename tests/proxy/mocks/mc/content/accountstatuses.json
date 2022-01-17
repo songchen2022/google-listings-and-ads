@@ -1,0 +1,80 @@
+{
+  "kind": "content#accountStatus",
+  "accountId": "123456789",
+  "websiteClaimed": true,
+  "accountManagement": "manual",
+  "accountLevelIssues": [
+    {
+      "id": "custom_label",
+      "title": "Account suspended due to policy violation: Misrepresentation",
+      "country": "JP",
+      "severity": "critical",
+      "documentation": "https://support.google.com/merchants/answer/6150127",
+      "destination": "SurfacesAcrossGoogle"
+    },
+    {
+      "id": "custom_label",
+      "title": "Account suspended due to policy violation: Misrepresentation",
+      "country": "JP",
+      "severity": "critical",
+      "documentation": "https://support.google.com/merchants/answer/6150127",
+      "destination": "Shopping"
+    },
+    {
+      "id": "custom_label",
+      "title": "Account suspended due to policy violation: Misrepresentation",
+      "country": "AU",
+      "severity": "critical",
+      "documentation": "https://support.google.com/merchants/answer/6150127",
+      "destination": "SurfacesAcrossGoogle"
+    },
+    {
+      "id": "custom_label",
+      "title": "Account suspended due to policy violation: Misrepresentation",
+      "country": "US",
+      "severity": "critical",
+      "documentation": "https://support.google.com/merchants/answer/6150127",
+      "destination": "Shopping"
+    },
+    {
+      "id": "custom_label",
+      "title": "Account suspended due to policy violation: Misrepresentation",
+      "country": "US",
+      "severity": "critical",
+      "documentation": "https://support.google.com/merchants/answer/6150127",
+      "destination": "SurfacesAcrossGoogle"
+    },
+    {
+      "id": "pending_phone_verification",
+      "title": "Your phone number needs to be verified",
+      "severity": "critical",
+      "detail": "Go to the business information page to verify your business phone number",
+      "documentation": "https://support.google.com/merchants/answer/10139041"
+    },
+    {
+      "id": "custom_label",
+      "title": "Account suspended due to policy violation: Misrepresentation",
+      "country": "AU",
+      "severity": "critical",
+      "documentation": "https://support.google.com/merchants/answer/6150127",
+      "destination": "Shopping"
+    },
+    {
+      "id": "custom_label",
+      "title": "Account suspended due to policy violation: Misrepresentation",
+      "country": "TW",
+      "severity": "critical",
+      "documentation": "https://support.google.com/merchants/answer/6150127",
+      "destination": "SurfacesAcrossGoogle"
+    },
+    {
+      "id": "custom_label",
+      "title": "Account suspended due to policy violation: Misrepresentation",
+      "country": "TW",
+      "severity": "critical",
+      "documentation": "https://support.google.com/merchants/answer/6150127",
+      "destination": "Shopping"
+    }
+  ],
+  "products": []
+}

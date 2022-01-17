@@ -22,5 +22,11 @@ module.exports.checkRequest = ( request ) => {
 		return require( `./mocks/mc/reports/${ file }${ page }.json` );
 	}
 
+	// Proxy for path `google/google-mc/content/v2.1/{merchantId}/accountstatuses/{accountId}`
+	// API doc: https://developers.google.com/shopping-content/reference/rest/v2.1/accountstatuses/get
+	if ( request.params.path.includes( '/accountstatuses/' ) ) {
+		return require( './mocks/mc/content/accountstatuses.json' );
+	}
+
 	return false;
 };
