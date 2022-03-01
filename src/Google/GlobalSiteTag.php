@@ -181,15 +181,24 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		}
 		$product = wc_get_product( get_the_ID() );
 		printf(
-			'<script>gtag("event", "view_item", {"send_to": "GLA", "developer_id.%s": "true", "ecomm_pagetype": "product", "value": "%s", items:[{
-				"id": "gla_%s", "price": %s, "google_business_vertical": "retail", "name":"%s", "category":"%s",
+			'<script>gtag("event", "view_item", {
+				"send_to": "GLA", 
+				"developer_id.%s": "true", 
+				"ecomm_pagetype": "product", 
+				"value": "%s", 
+				items:[{
+				"id": "gla_%s", 
+				"price": %s, 
+				"google_business_vertical": "retail", 
+				"name":"%s", 
+				"category":"%s",
 			}]});</script>',
 			esc_js( self::DEVELOPER_ID ),
 			esc_js( (string) $product->get_price() ),
 			esc_js( $product->get_id() ),
 			esc_js( (string) $product->get_price() ),
 			esc_js( $product->get_name() ),
-			esc_js( join("& ",$product->get_categories()) )
+			esc_js( join("& ",$product->get_categories()) ),
 		);
 	}
 
