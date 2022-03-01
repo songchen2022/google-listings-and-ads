@@ -176,30 +176,16 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 	 */
 	public function display_view_item_event_snippet(): void {
 		// Only display on the order confirmation page.
-		printf("testing");
-		printf((string) is_product());
 		if ( ! is_product() ) {
 			return;
 		}
-		printf("testing222");
-		// global $product;
 		$product = wc_get_product( get_the_ID() );
-		printf("testing222price11");
-		echo $product;
-		printf((string) $product->get_price());
-		printf("testing222price");
-
-		printf((string) $product->get_total_sales());
-		printf("testingtotallllllll");
-
-		$value = $product->get_price() * $product->get_total_sales();
-		printf("testing33333");
 		printf(
 			'<script>gtag("event", "view_item", {"send_to": "GLA", "developer_id.%s": "true", "ecomm_pagetype": "product", "value": "%s", items:[{
 				"id": "gla_%s", "price": %s, "google_business_vertical": "retail", "name":"%s", "category":"%s",
 			}]});</script>',
 			esc_js( self::DEVELOPER_ID ),
-			esc_js( "{$value}" ),
+			esc_js( (string) $product->get_price() ),
 			esc_js( $product->get_id() ),
 			esc_js( (string) $product->get_price() ),
 			esc_js( $product->get_name() ),
