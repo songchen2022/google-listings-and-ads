@@ -182,7 +182,8 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 			return;
 		}
 		printf("testing222");
-		global $product;
+		// global $product;
+		$product = wc_get_product( get_the_ID() );
 		printf("testing222price11");
 		printf((string) $product->get_price());
 		printf("testing222price");
