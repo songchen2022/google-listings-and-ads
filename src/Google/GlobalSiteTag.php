@@ -79,7 +79,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 			1000000
 		);
 		add_action(
-			'wp_head',
+			'wp_body_open',
 			function() {
 				$this->display_view_item_event_snippet( );
 			},
