@@ -177,6 +177,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 	public function display_view_item_event_snippet(): void {
 		// Only display on the order confirmation page.
 		printf("testing");
+		printf((string) is_product());
 		if ( ! is_product() ) {
 			return;
 		}
