@@ -180,10 +180,10 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		if ( ! is_product() ) {
 			return;
 		}
-
+		printf("testing222");
 		global $product;
 		$value = $product->get_price() * $product->get_total_sales();
-
+		printf("testing33333");
 		printf(
 			'<script>gtag("event", "view_item", {"send_to": "GLA", "developer_id.%s": "true", "ecomm_pagetype": "product", "value": "%s", items:[{
 				"id": "gla_%s", "price": %s, "google_business_vertical": "retail", "name":"%s", "category":"%s",
