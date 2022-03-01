@@ -142,6 +142,8 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 	 * @param string $ads_conversion_label Google Ads conversion label.
 	 */
 	public function maybe_display_event_snippet( string $ads_conversion_id, string $ads_conversion_label ): void {
+		printf("maybe_display_event_snippet");
+		printf("testing");
 		// Only display on the order confirmation page.
 		if ( ! is_order_received_page() ) {
 			return;
