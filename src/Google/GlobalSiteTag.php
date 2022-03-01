@@ -201,9 +201,9 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 			esc_js( self::DEVELOPER_ID ),
 			esc_js( "{$value}" ),
 			esc_js( $product->get_id() ),
-			esc_js( wc_price($product->get_price()) ),
+			esc_js( (string) $product->get_price() ),
 			esc_js( $product->get_name() ),
-			esc_js( $product->get_categories() )
+			esc_js( join("& ",$product->get_categories()) )
 		);
 	}
 
