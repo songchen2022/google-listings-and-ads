@@ -215,9 +215,13 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 	 */
 	public function display_cart_page_snippet(): void {
 		// Only display on the cart page.
+		printf("test111111111222222");
+
 		if ( ! is_cart() ) {
 			return;
 		}
+		printf("test11333333333333");
+
 		// $product = wc_get_product( get_the_ID() );
 		$cart = WC()->cart;
 		printf("test111111111");
