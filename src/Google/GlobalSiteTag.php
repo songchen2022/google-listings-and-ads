@@ -90,7 +90,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 			function() {
 				$this->display_cart_page_snippet();
 			},
-			1000003
+			10000
 		);
 	}
 
