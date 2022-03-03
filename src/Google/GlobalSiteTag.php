@@ -85,6 +85,13 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 			},
 			1000002
 		);
+		add_action(
+			'wp_body_open',
+			function() {
+				$this->display_cart_page_snippet();
+			},
+			1000003
+		);
 	}
 
 	/**
@@ -201,6 +208,37 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 			esc_js( $product->get_name() ),
 			esc_js( join( '& ', $product->get_categories() ) ),
 		);
+	}
+
+	/**
+	 * Display the JavaScript code to track the cart page.
+	 */
+	public function display_cart_page_snippet(): void {
+		// Only display on the cart page.
+		if ( ! is_cart() ) {
+			return;
+		}
+		// $product = wc_get_product( get_the_ID() );
+		$cart = WC()->cart;
+		printf("test111111111");
+		echo $cart;
+		// printf(
+		// 	'<script>gtag("event", "page_view", {
+		// 		"send_to": "GLA", 
+		// 		"ecomm_pagetype": "cart", 
+		// 		"value": "%s", 
+		// 		items:[{
+		// 		"id": "gla_%s", 
+		// 		"price": %s, 
+		// 		"google_business_vertical": "retail", 
+		// 		"name":"%s", 
+		// 		}]});
+		// 	</script>',
+		// 	esc_js( (string) $product->get_price() ),
+		// 	esc_js( $product->get_id() ),
+		// 	esc_js( (string) $product->get_price() ),
+		// 	esc_js( $product->get_name() ),
+		// );
 	}
 
 	/**
