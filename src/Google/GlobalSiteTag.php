@@ -215,18 +215,19 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 	 */
 	public function display_cart_page_snippet(): void {
 		// Only display on the cart page.
+		printf("c");
 
 		if ( ! is_cart() ) {
 			return;
 		}
-	
+		printf("test11333333333333");
 
 		global $woocommerce;
 $cart = $woocommerce->cart->get_cart();
 
 		// $product = wc_get_product( get_the_ID() );
 		// $cart = wi()->cart;
-	
+		printf("test111111111");
         $item_info ='';
 		
 		foreach ( WC()->cart->get_cart() as $cart_item ) {
@@ -256,9 +257,9 @@ $cart = $woocommerce->cart->get_cart();
 
 		$annonations = $annonations . $item_info .']})';
 
-	
+		printf($annonations);
 
-		// echo (string) $cart;
+	
 		// foreach($cart as $item => $values) { 
 
 		// 	$_product = $values['data']->post; 
