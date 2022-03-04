@@ -228,44 +228,58 @@ $cart = $woocommerce->cart->get_cart();
 		// $product = wc_get_product( get_the_ID() );
 		// $cart = wi()->cart;
 		printf("test111111111");
+        $item_info ='';
+		
 		foreach ( WC()->cart->get_cart() as $cart_item ) {
 			// gets the cart item quantity
-			$quantity           = $cart_item['quantity'];
-			// gets the cart item subtotal
-			$line_subtotal      = $cart_item['line_subtotal']; 
-			$line_subtotal_tax  = $cart_item['line_subtotal_tax'];
-			// gets the cart item total
-			$line_total         = $cart_item['line_total'];
-			$line_tax           = $cart_item['line_tax'];
-			// unit price of the product
-			$item_price         = $line_subtotal / $quantity;
-			$item_tax           = $line_subtotal_tax / $quantity;
-		 echo $quantity;
-		 echo $item_price;
+			$id         = $cart_item['product_id'];
+			
+	 // gets the product object
+	 $product            = $cart_item['data'];
+	 $name               = $product->get_name();
+	 $price              = $product->get_price();
+		
+
+		 $item_info = $item_info . sprintf('{
+			"id": "gla_%s", 
+			"price": %s, 
+			"google_business_vertical": "retail", 
+			"name":"%s", 
+			}', $id, $price, $name,);
+
+
 		}
+		$value = WC()->cart->total;
+		$annonations = sprintf('<script>gtag("event", "page_view", 
+		{"send_to": "GLA", "ecomm_pagetype": "cart", "value": "%s", items: [', $value);
+
+		$annonations = $annonations . $item_info .']})';
+
+		printf($annonations);
+
 		echo (string) $cart;
 		// foreach($cart as $item => $values) { 
 
 		// 	$_product = $values['data']->post; 
 		// 	  echo (string)$_product; 
 		//  }
-		// printf(
-		// 	'<script>gtag("event", "page_view", {
-		// 		"send_to": "GLA", 
-		// 		"ecomm_pagetype": "cart", 
-		// 		"value": "%s", 
-		// 		items:[{
-		// 		"id": "gla_%s", 
-		// 		"price": %s, 
-		// 		"google_business_vertical": "retail", 
-		// 		"name":"%s", 
-		// 		}]});
-		// 	</script>',
-		// 	esc_js( (string) $product->get_price() ),
-		// 	esc_js( $product->get_id() ),
-		// 	esc_js( (string) $product->get_price() ),
-		// 	esc_js( $product->get_name() ),
-		// );
+		printf(
+			'<script>gtag("event", "page_view", {
+				"send_to": "GLA", 
+				"ecomm_pagetype": "cart", 
+				"value": "%s", 
+				items:[{
+				"id": "gla_%s", 
+				"price": %s, 
+				"google_business_vertical": "retail", 
+				"name":"%s", 
+				}]});
+			</script>',
+			esc_js( (string) $product->get_price() ),
+			esc_js( $product->get_id() ),
+			esc_js( (string) $product->get_price() ),
+			esc_js( $product->get_name() ),
+		);
 	}
 
 	/**
