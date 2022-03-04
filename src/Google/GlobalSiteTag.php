@@ -249,7 +249,7 @@ $cart = $woocommerce->cart->get_cart();
 				}', $id, $price, $name,$quantity);
 
 
-		// }
+		}
 		$value = WC()->cart->total;
 		$annonations = sprintf('<script>gtag("event", "page_view", 
 		{"send_to": "GLA", "ecomm_pagetype": "cart", "value": "%s", items: [', $value) . $item_info .']})';
