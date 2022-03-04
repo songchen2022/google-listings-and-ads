@@ -257,7 +257,7 @@ $cart = $woocommerce->cart->get_cart();
 
 		$annonations = $annonations . $item_info .']})';
 
-		printf($annonations);
+		// printf($annonations);
 
 	
 		// foreach($cart as $item => $values) { 
