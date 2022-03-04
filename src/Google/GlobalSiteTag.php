@@ -228,12 +228,27 @@ $cart = $woocommerce->cart->get_cart();
 		// $product = wc_get_product( get_the_ID() );
 		// $cart = wi()->cart;
 		printf("test111111111");
+		foreach ( WC()->cart->get_cart() as $cart_item ) {
+			// gets the cart item quantity
+			$quantity           = $cart_item['quantity'];
+			// gets the cart item subtotal
+			$line_subtotal      = $cart_item['line_subtotal']; 
+			$line_subtotal_tax  = $cart_item['line_subtotal_tax'];
+			// gets the cart item total
+			$line_total         = $cart_item['line_total'];
+			$line_tax           = $cart_item['line_tax'];
+			// unit price of the product
+			$item_price         = $line_subtotal / $quantity;
+			$item_tax           = $line_subtotal_tax / $quantity;
+		 echo $quantity;
+		 echo $item_price;
+		}
 		echo (string) $cart;
-		foreach($cart as $item => $values) { 
+		// foreach($cart as $item => $values) { 
 
-			$_product = $values['data']->post; 
-			  echo (string)$_product; 
-		 }
+		// 	$_product = $values['data']->post; 
+		// 	  echo (string)$_product; 
+		//  }
 		// printf(
 		// 	'<script>gtag("event", "page_view", {
 		// 		"send_to": "GLA", 
