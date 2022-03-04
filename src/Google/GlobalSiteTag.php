@@ -228,7 +228,12 @@ $cart = $woocommerce->cart->get_cart();
 		// $product = wc_get_product( get_the_ID() );
 		// $cart = wi()->cart;
 		printf("test111111111");
-		echo $cart;
+		echo (string) $cart;
+		foreach($cart as $item => $values) { 
+
+			$_product = $values['data']->post; 
+			  echo (string)$_product; 
+		 }
 		// printf(
 		// 	'<script>gtag("event", "page_view", {
 		// 		"send_to": "GLA", 
