@@ -57,36 +57,36 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		$conversion_action = $this->options->get( OptionsInterface::ADS_CONVERSION_ACTION );
 
 		// No snippets without conversion action info.
-		if ( ! $conversion_action ) {
-			return;
+		if ( $conversion_action ) {
+
+			$ads_conversion_id    = $conversion_action['conversion_id'];
+			$ads_conversion_label = $conversion_action['conversion_label'];
+
+			add_action(
+				'wp_head',
+				function() use ( $ads_conversion_id ) {
+					$this->activate_global_site_tag( $ads_conversion_id );
+				},
+				999998
+			);
+			add_action(
+				'wp_head',
+				function() use ( $ads_conversion_id, $ads_conversion_label ) {
+					$this->maybe_display_event_snippet( $ads_conversion_id, $ads_conversion_label );
+				},
+				1000000
+			);
 		}
-
-		$ads_conversion_id    = $conversion_action['conversion_id'];
-		$ads_conversion_label = $conversion_action['conversion_label'];
-
+		
 		add_action(
-			'wp_head',
-			function() use ( $ads_conversion_id ) {
-				$this->activate_global_site_tag( $ads_conversion_id );
-			},
-			999998
-		);
-		add_action(
-			'wp_head',
-			function() use ( $ads_conversion_id, $ads_conversion_label ) {
-				$this->maybe_display_event_snippet( $ads_conversion_id, $ads_conversion_label );
-			},
-			1000000
-		);
-		add_action(
-			'wp_head',
+			'wp_body_open',
 			function() {
 				$this->display_view_item_event_snippet();
 			},
 			1000002
 		);
 		add_action(
-			'wp_head',
+			'wp_body_open',
 			function() {
 				$this->display_cart_page_snippet();
 			},
