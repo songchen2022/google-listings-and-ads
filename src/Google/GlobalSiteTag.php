@@ -230,27 +230,27 @@ $cart = $woocommerce->cart->get_cart();
 		printf("test111111111");
         $item_info ='';
 		
-		foreach ( WC()->cart->get_cart() as $cart_item ) {
-			// gets the cart item quantity
-			$id         = $cart_item['product_id'];
+		// foreach ( WC()->cart->get_cart() as $cart_item ) {
+		// 	// gets the cart item quantity
+		// 	$id         = $cart_item['product_id'];
 			
-			// gets the product object
-			$product            = $cart_item['data'];
-			$name               = $product->get_name();
-			$price              = $product->get_price();
-			$quantity           = $cart_item['quantity'];
+		// 	// gets the product object
+		// 	$product            = $cart_item['data'];
+		// 	$name               = $product->get_name();
+		// 	$price              = $product->get_price();
+		// 	$quantity           = $cart_item['quantity'];
 
 
-			$item_info = $item_info . sprintf('{
-				"id": "gla_%s", 
-				"price": %s, 
-				"google_business_vertical": "retail", 
-				"name":"%s",
-				"quanitity":"%s",
-				}', $id, $price, $name,$quantity);
+		// 	$item_info = $item_info . sprintf('{
+		// 		"id": "gla_%s", 
+		// 		"price": %s, 
+		// 		"google_business_vertical": "retail", 
+		// 		"name":"%s",
+		// 		"quanitity":"%s",
+		// 		}', $id, $price, $name,$quantity);
 
 
-		}
+		// }
 		$value = WC()->cart->total;
 		$annonations = sprintf('<script>gtag("event", "page_view", 
 		{"send_to": "GLA", "ecomm_pagetype": "cart", "value": "%s", items: [', $value);
