@@ -77,7 +77,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 				1000000
 			);
 		}
-		
+
 		add_action(
 			'wp_body_open',
 			function() {
@@ -215,15 +215,18 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 	 */
 	public function display_cart_page_snippet(): void {
 		// Only display on the cart page.
-		printf("test111111111222222");
+		printf("c");
 
 		if ( ! is_cart() ) {
 			return;
 		}
 		printf("test11333333333333");
 
+		global $woocommerce;
+$cart = $woocommerce->cart->get_cart();
+
 		// $product = wc_get_product( get_the_ID() );
-		$cart = WC()->cart;
+		// $cart = wi()->cart;
 		printf("test111111111");
 		echo $cart;
 		// printf(
