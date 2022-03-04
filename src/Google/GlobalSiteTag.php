@@ -215,37 +215,38 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 	 */
 	public function display_cart_page_snippet(): void {
 		// Only display on the cart page.
-		printf("c");
 
 		if ( ! is_cart() ) {
 			return;
 		}
-		printf("test11333333333333");
+	
 
 		global $woocommerce;
 $cart = $woocommerce->cart->get_cart();
 
 		// $product = wc_get_product( get_the_ID() );
 		// $cart = wi()->cart;
-		printf("test111111111");
+	
         $item_info ='';
 		
 		foreach ( WC()->cart->get_cart() as $cart_item ) {
 			// gets the cart item quantity
 			$id         = $cart_item['product_id'];
 			
-	 // gets the product object
-	 $product            = $cart_item['data'];
-	 $name               = $product->get_name();
-	 $price              = $product->get_price();
-		
+			// gets the product object
+			$product            = $cart_item['data'];
+			$name               = $product->get_name();
+			$price              = $product->get_price();
+			$quantity           = $cart_item['quantity'];
 
-		 $item_info = $item_info . sprintf('{
-			"id": "gla_%s", 
-			"price": %s, 
-			"google_business_vertical": "retail", 
-			"name":"%s", 
-			}', $id, $price, $name,);
+
+			$item_info = $item_info . sprintf('{
+				"id": "gla_%s", 
+				"price": %s, 
+				"google_business_vertical": "retail", 
+				"name":"%s",
+				"quanitity":"%s",
+				}', $id, $price, $name,$quantity);
 
 
 		}
@@ -255,31 +256,31 @@ $cart = $woocommerce->cart->get_cart();
 
 		$annonations = $annonations . $item_info .']})';
 
-		printf($annonations);
+	
 
-		echo (string) $cart;
+		// echo (string) $cart;
 		// foreach($cart as $item => $values) { 
 
 		// 	$_product = $values['data']->post; 
 		// 	  echo (string)$_product; 
 		//  }
-		printf(
-			'<script>gtag("event", "page_view", {
-				"send_to": "GLA", 
-				"ecomm_pagetype": "cart", 
-				"value": "%s", 
-				items:[{
-				"id": "gla_%s", 
-				"price": %s, 
-				"google_business_vertical": "retail", 
-				"name":"%s", 
-				}]});
-			</script>',
-			esc_js( (string) $product->get_price() ),
-			esc_js( $product->get_id() ),
-			esc_js( (string) $product->get_price() ),
-			esc_js( $product->get_name() ),
-		);
+		// printf(
+		// 	'<script>gtag("event", "page_view", {
+		// 		"send_to": "GLA", 
+		// 		"ecomm_pagetype": "cart", 
+		// 		"value": "%s", 
+		// 		items:[{
+		// 		"id": "gla_%s", 
+		// 		"price": %s, 
+		// 		"google_business_vertical": "retail", 
+		// 		"name":"%s", 
+		// 		}]});
+		// 	</script>',
+		// 	esc_js( (string) $product->get_price() ),
+		// 	esc_js( $product->get_id() ),
+		// 	esc_js( (string) $product->get_price() ),
+		// 	esc_js( $product->get_name() ),
+		// );
 	}
 
 	/**
