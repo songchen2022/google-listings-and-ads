@@ -248,18 +248,20 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 
 		}
 		$value = WC()->cart->total;
-		$annonations = sprintf(
+		// $annonations = 
+		printf(
+		
+
 			'<script>gtag(
 				"event", "page_view", 
-				{
-					"send_to": "GLA", 
-					"ecomm_pagetype": "cart", 
-					"value": "%s", 
-					items: [', $value) . $item_info .']})';
+				{"send_to": "GLA",
+				"ecomm_pagetype": "cart", 
+				"value": "%s", 
+				items: [' . $item_info .']})', $value);
 
 		// $annonations = $annonations . $item_info .']})';
 
-		printf($annonations);
+		// printf($annonations);
 
 	
 		// foreach($cart as $item => $values) { 
