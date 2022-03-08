@@ -90,8 +90,15 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 			function() {
 				$this->display_cart_page_snippet();
 			},
-			10000
+			1000004
 		);
+		// add_action(
+		// 	'wp_body_open',
+		// 	function() {
+		// 		$this->display_purchase_page_snippet();
+		// 	},
+		// 	1000004
+		// );
 	}
 
 	/**
@@ -219,11 +226,6 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 			return;
 		}
 
-		global $woocommerce;
-// $cart = $woocommerce->cart->get_cart();
-
-		// $product = wc_get_product( get_the_ID() );
-		// $cart = wi()->cart;
         $item_info ='';
 		
 		foreach ( WC()->cart->get_cart() as $cart_item ) {
@@ -236,7 +238,6 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 			$price              = $product->get_price();
 			$quantity           = $cart_item['quantity'];
 
-
 			$item_info = $item_info . sprintf('{
 				"id": "gla_%s", 
 				"price": %s, 
@@ -244,49 +245,96 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 				"name":"%s",
 				"quanitity":"%s",
 				}', $id, $price, $name,$quantity);
-
-
 		}
 		$value = WC()->cart->total;
-		// $annonations = 
-		printf(
-		
-
+		printf(	
 			'<script>gtag(
 				"event", "page_view", 
 				{"send_to": "GLA",
 				"ecomm_pagetype": "cart", 
 				"value": "%s", 
-				items: [' . $item_info .']})', $value);
-
-		// $annonations = $annonations . $item_info .']})';
-
-		// printf($annonations);
-
-	
-		// foreach($cart as $item => $values) { 
-
-		// 	$_product = $values['data']->post; 
-		// 	  echo (string)$_product; 
-		//  }
-		// printf(
-		// 	'<script>gtag("event", "page_view", {
-		// 		"send_to": "GLA", 
-		// 		"ecomm_pagetype": "cart", 
-		// 		"value": "%s", 
-		// 		items:[{
-		// 		"id": "gla_%s", 
-		// 		"price": %s, 
-		// 		"google_business_vertical": "retail", 
-		// 		"name":"%s", 
-		// 		}]});
-		// 	</script>',
-		// 	esc_js( (string) $product->get_price() ),
-		// 	esc_js( $product->get_id() ),
-		// 	esc_js( (string) $product->get_price() ),
-		// 	esc_js( $product->get_name() ),
-		// );
+				items: [' . $item_info .']}); </script>', $value);		
 	}
+
+
+
+	/**
+	 * Display the JavaScript code to track the purchase page.
+	 */
+	// public function display_purchase_page_snippet(): void {
+	// 	// Only display on the cart page.
+	// 	if ( ! is_checkout() ) {
+	// 		return;
+	// 	}
+
+
+
+    //     $item_info ='';
+		
+	// 	foreach ( WC()->cart->get_cart() as $cart_item ) {
+	// 		// gets the cart item quantity
+	// 		$id         = $cart_item['product_id'];
+			
+	// 		// gets the product object
+	// 		$product            = $cart_item['data'];
+	// 		$name               = $product->get_name();
+	// 		$price              = $product->get_price();
+	// 		$quantity           = $cart_item['quantity'];
+
+	// 		$item_info = $item_info . sprintf('{
+	// 			"id": "gla_%s", 
+	// 			"price": %s, 
+	// 			"google_business_vertical": "retail", 
+	// 			"name":"%s",
+	// 			"quanitity":"%s",
+	// 			}', $id, $price, $name,$quantity);
+	// 	}
+	// 	$value = WC()->cart->total;
+		
+	// 	printf(	
+	// 		'<script>gtag(
+	// 			"event", "purchase", 
+	// 			{
+	// 				"developer_id.%s": "true",
+	// 			"ecomm_pagetype": "purchase", 
+	// 			"send_to": "GLA",
+	// 			"transaction_id": "%s",
+	// 			"currency": "%s",
+	// 			"country": "%s,
+	// 			"value": "%s", 
+	// 			"new_customer": "%s",
+	// 			"tax": "%s",
+	// 			"shipping": "%s",
+	// 			"delivery_posatal_code": "%s",
+	// 			"aw_merchant_id": "%s",
+	// 			"aw_feed_country": "%s",
+	// 			"aw_feed_language": "%s",
+	// 			items: [' . $item_info .']})', $value,
+	// 			esc_js( self::DEVELOPER_ID ),
+
+	// 		);	
+				
+				// printf(
+				// 	'<script>gtag("event", "view_item", {
+				// 		"send_to": "GLA", 
+				// 		"developer_id.%s": "true", 
+				// 		"ecomm_pagetype": "product", 
+				// 		"value": "%s", 
+				// 		items:[{
+				// 		"id": "gla_%s", 
+				// 		"price": %s, 
+				// 		"google_business_vertical": "retail", 
+				// 		"name":"%s", 
+				// 		"category":"%s",
+				// 		}]});
+				// 	</script>',
+				// 	esc_js( self::DEVELOPER_ID ),
+				// 	esc_js( (string) $product->get_price() ),
+				// 	esc_js( $product->get_id() ),
+				// 	esc_js( (string) $product->get_price() ),
+				// 	esc_js( $product->get_name() ),
+				// 	esc_js( join( '& ', $product->get_categories() ) ),
+	// }
 
 	/**
 	 * TODO: Should the Global Site Tag framework be used if there are no paid Ads campaigns?
