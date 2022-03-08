@@ -246,10 +246,10 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 				"name":"%s",
 				"quanitity":"%s",
 				}',
-				$id,
-				$price,
-				$name,
-				$quantity
+				esc_js( $id ),
+				esc_js( $price ),
+				esc_js( $name ),
+				esc_js( $quantity ),
 			);
 		}
 		$value = WC()->cart->total;
@@ -259,7 +259,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 				{"send_to": "GLA",
 				"ecomm_pagetype": "cart",
 				"value": "%s",
-				items: [' . esc_js( $item_info ) . ']}); </script>',
+				items: [' . $item_info . ']}); </script>',
 			esc_js( $value )
 		);
 	}
