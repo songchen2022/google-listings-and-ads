@@ -249,7 +249,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 				esc_js( $id ),
 				esc_js( $price ),
 				esc_js( $name ),
-				esc_js( $quantity ),
+				esc_js( $quantity )
 			);
 		}
 		$value = WC()->cart->total;
