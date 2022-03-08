@@ -21,6 +21,7 @@ use Automattic\WooCommerce\GoogleListingsAndAds\Proxies\WP;
  */
 class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareInterface {
 
+
 	use OptionsAwareTrait;
 
 	/** @var string Developer ID */
@@ -64,14 +65,14 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 
 			add_action(
 				'wp_head',
-				function() use ( $ads_conversion_id ) {
+				function () use ( $ads_conversion_id ) {
 					$this->activate_global_site_tag( $ads_conversion_id );
 				},
 				999998
 			);
 			add_action(
 				'wp_head',
-				function() use ( $ads_conversion_id, $ads_conversion_label ) {
+				function () use ( $ads_conversion_id, $ads_conversion_label ) {
 					$this->maybe_display_event_snippet( $ads_conversion_id, $ads_conversion_label );
 				},
 				1000000
@@ -80,25 +81,25 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 
 		add_action(
 			'wp_body_open',
-			function() {
+			function () {
 				$this->display_view_item_event_snippet();
 			},
 			1000002
 		);
 		add_action(
 			'wp_body_open',
-			function() {
+			function () {
 				$this->display_cart_page_snippet();
 			},
 			1000004
 		);
-		// add_action(
-		// 	'wp_body_open',
-		// 	function() {
-		// 		$this->display_purchase_page_snippet();
-		// 	},
-		// 	1000004
-		// );
+		add_action(
+			'wp_body_open',
+			function () {
+				$this->display_purchase_page_snippet();
+			},
+			1000004
+		);
 	}
 
 	/**
@@ -112,7 +113,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		if ( $this->gtag_js->is_adding_framework() ) {
 			add_filter(
 				'woocommerce_gtag_snippet',
-				function( $gtag_snippet ) use ( $ads_conversion_id ) {
+				function ( $gtag_snippet ) use ( $ads_conversion_id ) {
 					return preg_replace(
 						'~(\s)</script>~',
 						"\tgtag('config', '" . $ads_conversion_id . "');\n$1</script>",
@@ -125,14 +126,13 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		}
 	}
 
-
 	/**
 	 * Display the JavaScript code to load the Global Site Tag framework.
 	 *
 	 * @param string $ads_conversion_id Google Ads account conversion ID.
 	 */
 	protected function display_global_site_tag( string $ads_conversion_id ) {
-		// phpcs:disable WordPress.WP.EnqueuedResources.NonEnqueuedScript
+        // phpcs:disable WordPress.WP.EnqueuedResources.NonEnqueuedScript
 		?>
 
 <!-- Global site tag (gtag.js) - Google Ads: <?php echo esc_js( $ads_conversion_id ); ?> - Google Listings & Ads -->
@@ -146,7 +146,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 	gtag('config','<?php echo esc_js( $ads_conversion_id ); ?>');
 </script>
 		<?php
-		// phpcs:enable WordPress.WP.EnqueuedResources.NonEnqueuedScript
+// phpcs:enable WordPress.WP.EnqueuedResources.NonEnqueuedScript
 	}
 
 	/**
@@ -196,15 +196,15 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		$product = wc_get_product( get_the_ID() );
 		printf(
 			'<script>gtag("event", "view_item", {
-				"send_to": "GLA", 
-				"developer_id.%s": "true", 
-				"ecomm_pagetype": "product", 
-				"value": "%s", 
+				"send_to": "GLA",
+				"developer_id.%s": "true",
+				"ecomm_pagetype": "product",
+				"value": "%s",
 				items:[{
-				"id": "gla_%s", 
-				"price": %s, 
-				"google_business_vertical": "retail", 
-				"name":"%s", 
+				"id": "gla_%s",
+				"price": %s,
+				"google_business_vertical": "retail",
+				"name":"%s",
 				"category":"%s",
 				}]});
 			</script>',
@@ -226,115 +226,127 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 			return;
 		}
 
-        $item_info ='';
-		
+		$item_info = '';
+
 		foreach ( WC()->cart->get_cart() as $cart_item ) {
 			// gets the cart item quantity
-			$id         = $cart_item['product_id'];
-			
-			// gets the product object
-			$product            = $cart_item['data'];
-			$name               = $product->get_name();
-			$price              = $product->get_price();
-			$quantity           = $cart_item['quantity'];
+			$id = $cart_item['product_id'];
 
-			$item_info = $item_info . sprintf('{
-				"id": "gla_%s", 
-				"price": %s, 
-				"google_business_vertical": "retail", 
+			// gets the product object
+			$product  = $cart_item['data'];
+			$name     = $product->get_name();
+			$price    = $product->get_price();
+			$quantity = $cart_item['quantity'];
+
+			$item_info = $item_info . sprintf(
+				'{
+				"id": "gla_%s",
+				"price": %s,
+				"google_business_vertical": "retail",
 				"name":"%s",
 				"quanitity":"%s",
-				}', $id, $price, $name,$quantity);
+				}',
+				$id,
+				$price,
+				$name,
+				$quantity
+			);
 		}
 		$value = WC()->cart->total;
-		printf(	
+		printf(
 			'<script>gtag(
-				"event", "page_view", 
+				"event", "page_view",
 				{"send_to": "GLA",
-				"ecomm_pagetype": "cart", 
-				"value": "%s", 
-				items: [' . $item_info .']}); </script>', $value);		
+				"ecomm_pagetype": "cart",
+				"value": "%s",
+				items: [' . esc_js( $item_info ) . ']}); </script>',
+			esc_js( $value )
+		);
 	}
-
-
 
 	/**
 	 * Display the JavaScript code to track the purchase page.
 	 */
-	// public function display_purchase_page_snippet(): void {
-	// 	// Only display on the cart page.
-	// 	if ( ! is_checkout() ) {
-	// 		return;
-	// 	}
+	public function display_purchase_page_snippet(): void {
+		// Only display on the cart page.
+		if ( ! is_order_received_page() ) {
+			return;
+		}
 
+		$order_id = $this->wp->get_query_vars( 'order-received', 0 );
+		if ( empty( $order_id ) ) {
+			return;
+		}
 
+		$order = wc_get_order( $order_id );
 
-    //     $item_info ='';
-		
-	// 	foreach ( WC()->cart->get_cart() as $cart_item ) {
-	// 		// gets the cart item quantity
-	// 		$id         = $cart_item['product_id'];
-			
-	// 		// gets the product object
-	// 		$product            = $cart_item['data'];
-	// 		$name               = $product->get_name();
-	// 		$price              = $product->get_price();
-	// 		$quantity           = $cart_item['quantity'];
+		$item_info = '';
 
-	// 		$item_info = $item_info . sprintf('{
-	// 			"id": "gla_%s", 
-	// 			"price": %s, 
-	// 			"google_business_vertical": "retail", 
-	// 			"name":"%s",
-	// 			"quanitity":"%s",
-	// 			}', $id, $price, $name,$quantity);
-	// 	}
-	// 	$value = WC()->cart->total;
-		
-	// 	printf(	
-	// 		'<script>gtag(
-	// 			"event", "purchase", 
-	// 			{
-	// 				"developer_id.%s": "true",
-	// 			"ecomm_pagetype": "purchase", 
-	// 			"send_to": "GLA",
-	// 			"transaction_id": "%s",
-	// 			"currency": "%s",
-	// 			"country": "%s,
-	// 			"value": "%s", 
-	// 			"new_customer": "%s",
-	// 			"tax": "%s",
-	// 			"shipping": "%s",
-	// 			"delivery_posatal_code": "%s",
-	// 			"aw_merchant_id": "%s",
-	// 			"aw_feed_country": "%s",
-	// 			"aw_feed_language": "%s",
-	// 			items: [' . $item_info .']})', $value,
-	// 			esc_js( self::DEVELOPER_ID ),
+		foreach ( WC()->cart->get_cart() as $cart_item ) {
+			// gets the cart item quantity
+			$id = $cart_item['product_id'];
 
-	// 		);	
-				
-				// printf(
-				// 	'<script>gtag("event", "view_item", {
-				// 		"send_to": "GLA", 
-				// 		"developer_id.%s": "true", 
-				// 		"ecomm_pagetype": "product", 
-				// 		"value": "%s", 
-				// 		items:[{
-				// 		"id": "gla_%s", 
-				// 		"price": %s, 
-				// 		"google_business_vertical": "retail", 
-				// 		"name":"%s", 
-				// 		"category":"%s",
-				// 		}]});
-				// 	</script>',
-				// 	esc_js( self::DEVELOPER_ID ),
-				// 	esc_js( (string) $product->get_price() ),
-				// 	esc_js( $product->get_id() ),
-				// 	esc_js( (string) $product->get_price() ),
-				// 	esc_js( $product->get_name() ),
-				// 	esc_js( join( '& ', $product->get_categories() ) ),
-	// }
+			// gets the product object
+			$product  = $cart_item['data'];
+			$name     = $product->get_name();
+			$price    = $product->get_price();
+			$quantity = $cart_item['quantity'];
+
+			$item_info = $item_info . sprintf(
+				'{
+				"id": "gla_%s",
+				"price": %s,
+				"google_business_vertical": "retail",
+				"name":"%s",
+				"quanitity":"%s",
+				}',
+				esc_js( $id ),
+				esc_js( $price ),
+				esc_js( $name ),
+				esc_js( $quantity ),
+			);
+		}
+		$is_new_customer = false;
+
+		if ( $order->get_user_id() ) {
+			$total_orders = wc_get_customer_order_count( $order->get_user_id() );
+		} else {
+			$total_orders = WC_Order_Export_Data_Extractor::get_customer_order_count_by_email( $order->get_billing_email() );
+		}
+		$is_new_customer = ( $total_orders === 1 ) ? 'true' : 'false';
+
+		printf(
+			'<script>gtag(
+				"event", "purchase",
+				{
+					"developer_id.%s": "true",
+				"ecomm_pagetype": "purchase",
+				"send_to": "GLA",
+				"transaction_id": "%s",
+				"currency": "%s",
+				"country": "%s,
+				"value": "%s",
+				"new_customer": "%s",
+				"tax": "%s",
+				"shipping": "%s",
+				"delivery_posatal_code": "%s",
+				"aw_merchant_id": "%s",
+				"aw_feed_country": "%s",
+				"aw_feed_language": "%s",
+				items: [' . esc_js( $item_info ) . ']}); </script>',
+			esc_js( self::DEVELOPER_ID ),
+			esc_js( $order->get_id() ),
+			esc_js( $order->get_currency() ),
+			esc_js( WC_Countries::get_base_country() ),
+			esc_js( $order->get_total() ),
+			esc_js( $is_new_customer ),
+			esc_js( $order->get_cart_tax() ),
+			esc_js( $order->get_total_shipping() ),
+			esc_js( $order->get_shipping_postcode() ),
+			esc_js( WC_Countries::get_base_country() ),
+			esc_js( get_local() ),
+		);
+	}
 
 	/**
 	 * TODO: Should the Global Site Tag framework be used if there are no paid Ads campaigns?
