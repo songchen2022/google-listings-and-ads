@@ -285,72 +285,103 @@ printf("11111");
 		$order = wc_get_order( $order_id );
         echo (string) $order;
 
-	// 	$item_info = '';
+        $item_info = '';
+printf("test order item");
+        // Get and Loop Over Order Items
+foreach ( $order->get_items() as $item_id => $item ) {
+    $product_id = $item->get_product_id();
+    $product = $item->get_product();
+    $product_name = $item->get_name();
+    $quantity = $item->get_quantity();
+    $price = $item->get_total();
 
-	// 	foreach ( WC()->cart->get_cart() as $cart_item ) {
-	// 		// gets the cart item quantity
-	// 		$id = $cart_item['product_id'];
+    $item_info = $item_info . sprintf(
+        '{
+        "id": "gla_%s",
+        "price": %s,
+        "google_business_vertical": "retail",
+        "name":"%s",
+        "quanitity":"%s",
+        }',
+        esc_js( $product_id ),
+        esc_js( $price ),
+        esc_js( $product_name ),
+        esc_js( $quantity ),
+    );
+    
+ }
+ printf($item_info);
 
-	// 		// gets the product object
-	// 		$product  = $cart_item['data'];
-	// 		$name     = $product->get_name();
-	// 		$price    = $product->get_price();
-	// 		$quantity = $cart_item['quantity'];
 
-	// 		$item_info = $item_info . sprintf(
-	// 			'{
-	// 			"id": "gla_%s",
-	// 			"price": %s,
-	// 			"google_business_vertical": "retail",
-	// 			"name":"%s",
-	// 			"quanitity":"%s",
-	// 			}',
-	// 			esc_js( $id ),
-	// 			esc_js( $price ),
-	// 			esc_js( $name ),
-	// 			esc_js( $quantity ),
-	// 		);
-	// 	}
-	// 	$is_new_customer = false;
+		printf("test cart item");
 
-	// 	if ( $order->get_user_id() ) {
-	// 		$total_orders = wc_get_customer_order_count( $order->get_user_id() );
-	// 	} else {
-	// 		$total_orders = WC_Order_Export_Data_Extractor::get_customer_order_count_by_email( $order->get_billing_email() );
-	// 	}
-	// 	$is_new_customer = ( $total_orders === 1 ) ? 'true' : 'false';
+		$item_info = '';
 
-	// 	printf(
-	// 		'<script>gtag(
-	// 			"event", "purchase",
-	// 			{
-	// 				"developer_id.%s": "true",
-	// 			"ecomm_pagetype": "purchase",
-	// 			"send_to": "GLA",
-	// 			"transaction_id": "%s",
-	// 			"currency": "%s",
-	// 			"country": "%s,
-	// 			"value": "%s",
-	// 			"new_customer": "%s",
-	// 			"tax": "%s",
-	// 			"shipping": "%s",
-	// 			"delivery_posatal_code": "%s",
-	// 			"aw_merchant_id": "%s",
-	// 			"aw_feed_country": "%s",
-	// 			"aw_feed_language": "%s",
-	// 			items: [' . esc_js( $item_info ) . ']}); </script>',
-	// 		esc_js( self::DEVELOPER_ID ),
-	// 		esc_js( $order->get_id() ),
-	// 		esc_js( $order->get_currency() ),
-	// 		esc_js( WC_Countries::get_base_country() ),
-	// 		esc_js( $order->get_total() ),
-	// 		esc_js( $is_new_customer ),
-	// 		esc_js( $order->get_cart_tax() ),
-	// 		esc_js( $order->get_total_shipping() ),
-	// 		esc_js( $order->get_shipping_postcode() ),
-	// 		esc_js( WC_Countries::get_base_country() ),
-	// 		esc_js( get_local() ),
-	// 	);
+		foreach ( WC()->cart->get_cart() as $cart_item ) {
+			// gets the cart item quantity
+			$id = $cart_item['product_id'];
+
+			// gets the product object
+			$product  = $cart_item['data'];
+			$name     = $product->get_name();
+			$price    = $product->get_price();
+			$quantity = $cart_item['quantity'];
+
+			$item_info = $item_info . sprintf(
+				'{
+				"id": "gla_%s",
+				"price": %s,
+				"google_business_vertical": "retail",
+				"name":"%s",
+				"quanitity":"%s",
+				}',
+				esc_js( $id ),
+				esc_js( $price ),
+				esc_js( $name ),
+				esc_js( $quantity ),
+			);
+		}
+        printf($item_info);
+		$is_new_customer = false;
+
+		if ( $order->get_user_id() ) {
+			$total_orders = wc_get_customer_order_count( $order->get_user_id() );
+		} else {
+			$total_orders = WC_Order_Export_Data_Extractor::get_customer_order_count_by_email( $order->get_billing_email() );
+		}
+		$is_new_customer = ( $total_orders === 1 ) ? 'true' : 'false';
+
+		printf(
+			'<script>gtag(
+				"event", "purchase",
+				{
+					"developer_id.%s": "true",
+				"ecomm_pagetype": "purchase",
+				"send_to": "GLA",
+				"transaction_id": "%s",
+				"currency": "%s",
+				"country": "%s,
+				"value": "%s",
+				"new_customer": "%s",
+				"tax": "%s",
+				"shipping": "%s",
+				"delivery_posatal_code": "%s",
+				"aw_merchant_id": "%s",
+				"aw_feed_country": "%s",
+				"aw_feed_language": "%s",
+				items: [' . esc_js( $item_info ) . ']}); </script>',
+			esc_js( self::DEVELOPER_ID ),
+			esc_js( $order->get_id() ),
+			esc_js( $order->get_currency() ),
+			esc_js( WC_Countries::get_base_country() ),
+			esc_js( $order->get_total() ),
+			esc_js( $is_new_customer ),
+			esc_js( $order->get_cart_tax() ),
+			esc_js( $order->get_total_shipping() ),
+			esc_js( $order->get_shipping_postcode() ),
+			esc_js( WC_Countries::get_base_country() ),
+			esc_js( get_local() ),
+		);
 	}
 
 	/**
