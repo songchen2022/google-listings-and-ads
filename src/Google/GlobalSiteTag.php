@@ -282,7 +282,8 @@ printf("11111");
         printf($order_id);
         printf("33333");
 
-	// 	$order = wc_get_order( $order_id );
+		$order = wc_get_order( $order_id );
+        echo (string) $order;
 
 	// 	$item_info = '';
 
