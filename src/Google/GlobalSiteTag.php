@@ -272,12 +272,14 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		if ( ! is_order_received_page() ) {
 			return;
 		}
-
+printf("11111");
 		$order_id = $this->wp->get_query_vars( 'order-received', 0 );
 		if ( empty( $order_id ) ) {
 			return;
 		}
+        printf("12222111");
         printf($order_id);
+        printf("33333");
 
 	// 	$order = wc_get_order( $order_id );
 
