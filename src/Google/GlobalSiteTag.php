@@ -293,7 +293,7 @@ foreach ( $order->get_items() as $item_id => $item ) {
     $product = $item->get_product();
     $product_name = $item->get_name();
     $quantity = $item->get_quantity();
-    $price = $item->get_total();
+    $price = $item->get_subtotal();
 
     $item_info = $item_info . sprintf(
         '{
@@ -313,35 +313,6 @@ foreach ( $order->get_items() as $item_id => $item ) {
  printf($item_info);
 
 
-		printf("test cart item");
-
-		$item_info = '';
-
-		foreach ( WC()->cart->get_cart() as $cart_item ) {
-			// gets the cart item quantity
-			$id = $cart_item['product_id'];
-
-			// gets the product object
-			$product  = $cart_item['data'];
-			$name     = $product->get_name();
-			$price    = $product->get_price();
-			$quantity = $cart_item['quantity'];
-
-			$item_info = $item_info . sprintf(
-				'{
-				"id": "gla_%s",
-				"price": %s,
-				"google_business_vertical": "retail",
-				"name":"%s",
-				"quanitity":"%s",
-				}',
-				esc_js( $id ),
-				esc_js( $price ),
-				esc_js( $name ),
-				esc_js( $quantity ),
-			);
-		}
-        printf($item_info);
 		$is_new_customer = false;
 
 		if ( $order->get_user_id() ) {
