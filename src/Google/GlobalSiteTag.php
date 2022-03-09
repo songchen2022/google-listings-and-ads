@@ -98,7 +98,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 			function () {
 				$this->display_purchase_page_snippet();
 			},
-			1000004
+			1000005
 		);
 	}
 
@@ -269,6 +269,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 	 */
 	public function display_purchase_page_snippet(): void {
 		// Only display on the cart page.
+        printf("0000");
 		if ( ! is_order_received_page() ) {
 			return;
 		}
