@@ -340,7 +340,7 @@ printf("test script");
 				"aw_merchant_id": "%s",
 				"aw_feed_country": "%s",
 				"aw_feed_language": "%s",
-				items: [' . esc_js( $item_info ) . ']}); </script>',
+				items: [' .  $item_info  . ']}); </script>',
 			esc_js( self::DEVELOPER_ID ),
 			esc_js( $order->get_id() ),
 			esc_js( $order->get_currency() ),
