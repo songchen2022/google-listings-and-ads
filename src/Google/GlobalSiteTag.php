@@ -315,13 +315,13 @@ foreach ( $order->get_items() as $item_id => $item ) {
 
 		$is_new_customer = false;
 
-		if ( $order->get_user_id() ) {
-			$total_orders = wc_get_customer_order_count( $order->get_user_id() );
-		} else {
-			$total_orders = WC_Order_Export_Data_Extractor::get_customer_order_count_by_email( $order->get_billing_email() );
-		}
-		$is_new_customer = ( $total_orders === 1 ) ? 'true' : 'false';
-
+		// if ( $order->get_user_id() ) {
+		// 	$total_orders = wc_get_customer_order_count( $order->get_user_id() );
+		// } else {
+		// 	$total_orders = WC_Order_Export_Data_Extractor::get_customer_order_count_by_email( $order->get_billing_email() );
+		// }
+		// $is_new_customer = ( $total_orders === 1 ) ? 'true' : 'false';
+printf("test script");
 		printf(
 			'<script>gtag(
 				"event", "purchase",
