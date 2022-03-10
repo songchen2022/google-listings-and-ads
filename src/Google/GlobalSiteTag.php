@@ -326,30 +326,11 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 				"event", "purchase",
 				{
 					"developer_id.%s": "true",
-				"ecomm_pagetype": "purchase",
-				"send_to": "GLA",
-				"transaction_id": "%s",
-				"currency": "%s",
-				"country": "%s,
-				"value": "%s",
-				"new_customer": "%s",
-				"tax": "%s",
-				"shipping": "%s",
-				"delivery_posatal_code": "%s",
-				"aw_merchant_id": "%s",
-				"aw_feed_country": "%s",
+				
 			
 				items: [' . $item_info . ']}); </script>',
 			esc_js( self::DEVELOPER_ID ),
-			esc_js( $order->get_id() ),
-			esc_js( $order->get_currency() ),
-			esc_js( WC_Countries::get_base_country() ),
-			esc_js( $order->get_total() ),
-			esc_js( $is_new_customer ),
-			esc_js( $order->get_cart_tax() ),
-			esc_js( $order->get_total_shipping() ),
-			esc_js( $order->get_shipping_postcode() ),
-			esc_js( WC_Countries::get_base_country() ),
+		
 			// esc_js( get_local() ),
 		// printf( 'test script' );
 		// printf(
