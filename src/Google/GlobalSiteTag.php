@@ -314,12 +314,12 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 
 		$is_new_customer = false;
 
-		// if ( $order->get_user_id() ) {
-		// $total_orders = wc_get_customer_order_count( $order->get_user_id() );
-		// } else {
-		// $total_orders = WC_Order_Export_Data_Extractor::get_customer_order_count_by_email( $order->get_billing_email() );
-		// }
-		// $is_new_customer = ( $total_orders === 1 ) ? 'true' : 'false';
+		if ( $order->get_user_id() ) {
+		$total_orders = wc_get_customer_order_count( $order->get_user_id() );
+		} else {
+		$total_orders = WC_Order_Export_Data_Extractor::get_customer_order_count_by_email( $order->get_billing_email() );
+		}
+		$is_new_customer = ( $total_orders === 1 ) ? 'true' : 'false';
         // printf( 'test script' );
         // echo esc_js( self::DEVELOPER_ID );
 		printf(
@@ -330,9 +330,17 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
                     "ecomm_pagetype": "purchase",
                     "send_to": "GLA",
                     transaction_id": "%s",
+                    "currency": "%s",
+                    "country": "%s,
+                    "value": "%s",
+                    "new_customer": "%s",
                     items: [' . $item_info . ']}); </script>',
                     esc_js( self::DEVELOPER_ID ),
                     esc_js( $order->get_id() ),
+                    esc_js( $order->get_currency() ),
+			        esc_js( WC_Countries::get_base_country() ),
+			        esc_js( $order->get_total() ),
+			        esc_js( $is_new_customer ),
                 );
 			// 
 		
