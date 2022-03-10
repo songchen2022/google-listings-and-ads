@@ -321,15 +321,13 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		// }
 		// $is_new_customer = ( $total_orders === 1 ) ? 'true' : 'false';
         printf( 'test script' );
+        echo esc_js( self::DEVELOPER_ID );
 		printf(
 			'<script>gtag(
 				"event", "purchase",
-				{
-					"developer_id.%s": "true",
-				
-			
-				items: [' . $item_info . ']}); </script>',
-			esc_js( self::DEVELOPER_ID ),
+				{items: [' . $item_info . ']}); </script>'
+                );
+			// esc_js( self::DEVELOPER_ID ),
 		
 			// esc_js( get_local() ),
 		// printf( 'test script' );
@@ -363,7 +361,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		// 	esc_js( $order->get_shipping_postcode() ),
 		// 	esc_js( WC_Countries::get_base_country() ),
 		// 	// esc_js( get_local() ),
-		);
+		// );
 	}
 
 	/**
