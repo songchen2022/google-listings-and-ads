@@ -269,24 +269,24 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 	 */
 	public function display_purchase_page_snippet(): void {
 		// Only display on the cart page.
-		printf( '0000' );
+		// printf( '0000' );
 		if ( ! is_order_received_page() ) {
 			return;
 		}
-		printf( '11111' );
+		// printf( '11111' );
 		$order_id = $this->wp->get_query_vars( 'order-received', 0 );
 		if ( empty( $order_id ) ) {
 			return;
 		}
-		printf( '12222111' );
-		printf( $order_id );
-		printf( '33333' );
+		// printf( '12222111' );
+		// printf( $order_id );
+		// printf( '33333' );
 
 		$order = wc_get_order( $order_id );
-		echo (string) $order;
+		// echo (string) $order;
 
 		$item_info = '';
-		printf( 'test order item' );
+		// printf( 'test order item' );
 		// Get and Loop Over Order Items
 		foreach ( $order->get_items() as $item_id => $item ) {
 			$product_id   = $item->get_product_id();
@@ -310,7 +310,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 			);
 
 		}
-		printf( $item_info );
+		// printf( $item_info );
 
 		$is_new_customer = false;
 
@@ -320,14 +320,17 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		// $total_orders = WC_Order_Export_Data_Extractor::get_customer_order_count_by_email( $order->get_billing_email() );
 		// }
 		// $is_new_customer = ( $total_orders === 1 ) ? 'true' : 'false';
-        printf( 'test script' );
-        echo esc_js( self::DEVELOPER_ID );
+        // printf( 'test script' );
+        // echo esc_js( self::DEVELOPER_ID );
 		printf(
 			'<script>gtag(
 				"event", "purchase",
-				{items: [' . $item_info . ']}); </script>'
+				{
+                    "developer_id.%s": "true",
+                    items: [' . $item_info . ']}); </script>',
+                    esc_js( self::DEVELOPER_ID ),
                 );
-			// esc_js( self::DEVELOPER_ID ),
+			// 
 		
 			// esc_js( get_local() ),
 		// printf( 'test script' );
