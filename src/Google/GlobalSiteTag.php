@@ -327,8 +327,12 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 				"event", "purchase",
 				{
                     "developer_id.%s": "true",
+                    "ecomm_pagetype": "purchase",
+                    "send_to": "GLA",
+                    transaction_id": "%s",
                     items: [' . $item_info . ']}); </script>',
                     esc_js( self::DEVELOPER_ID ),
+                    esc_js( $order->get_id() ),
                 );
 			// 
 		
