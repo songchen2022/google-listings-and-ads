@@ -331,12 +331,14 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
                     "send_to": "GLA",
                     transaction_id": "%s",
                     "currency": "%s",
+                    "country": "%s,
+                    "value": "%s",
                     items: [' . $item_info . ']}); </script>',
                     esc_js( self::DEVELOPER_ID ),
                     esc_js( $order->get_id() ),
                     esc_js( $order->get_currency() ),
-			        // esc_js( WC_Countries::get_base_country() ),
-			        // esc_js( $order->get_total() ),
+			        esc_js( WC_Countries::get_base_country() ),
+			        esc_js( $order->get_total() ),
 			        // esc_js( $is_new_customer ),
                 );
 			// 
