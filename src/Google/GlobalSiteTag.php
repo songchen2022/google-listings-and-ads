@@ -338,6 +338,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
                     "shipping": "%s",
                     "delivery_posatal_code": "%s",
                     "aw_feed_country": "%s",
+                    "aw_feed_language": "%s",
                     items: [' . $item_info . ']}); </script>',
                     esc_js( self::DEVELOPER_ID ),
                     esc_js( $order->get_id() ),
@@ -349,6 +350,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
                     esc_js( $order->get_total_shipping() ),
                     esc_js( $order->get_shipping_postcode() ),
                     esc_js( WC()->countries->get_base_country() ),
+                    esc_js( WC()->get_user_local() ),
                 );
 			// 
 		
