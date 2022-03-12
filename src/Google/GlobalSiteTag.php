@@ -320,6 +320,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		$total_orders = WC_Order_Export_Data_Extractor::get_customer_order_count_by_email( $order->get_billing_email() );
 		}
 		$is_new_customer = ( $total_orders === 1 ) ? 'true' : 'false';
+        $language = $this->wp->get_locale();
         // printf( 'test script' );
         // echo esc_js( self::DEVELOPER_ID );
 		printf(
@@ -337,7 +338,8 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
                     "tax": "%s",
                     "shipping": "%s",
                     "delivery_posatal_code": "%s",
-                    "aw_feed_country": "%s",                    
+                    "aw_feed_country": "%s",   
+                    "aw_feed_language": "%s",                 
                     items: [' . $item_info . ']}); </script>',
                     esc_js( self::DEVELOPER_ID ),
                     esc_js( $order->get_id() ),
@@ -349,6 +351,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
                     esc_js( $order->get_total_shipping() ),
                     esc_js( $order->get_shipping_postcode() ),
                     esc_js( WC()->countries->get_base_country() ),
+                    esc_js( $language ),
                 );
 			// 
 		
@@ -362,7 +365,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		// 		"ecomm_pagetype": "purchase",
 		// 		"send_to": "GLA",
 		// 		"transaction_id": "%s",
-		// 		"currency": "%s",
+		// 		"currency": "%s",fwp
 		// 		"country": "%s,
 		// 		"value": "%s",
 		// 		"new_customer": "%s",
