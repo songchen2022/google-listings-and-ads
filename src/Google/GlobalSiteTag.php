@@ -268,41 +268,31 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 	 * Display the JavaScript code to track the purchase page.
 	 */
 	public function display_purchase_page_snippet(): void {
-		// Only display on the cart page.
-		// printf( '0000' );
+		// Only display on the order confirmation page.
 		if ( ! is_order_received_page() ) {
 			return;
 		}
-		// printf( '11111' );
 		$order_id = $this->wp->get_query_vars( 'order-received', 0 );
 		if ( empty( $order_id ) ) {
 			return;
 		}
-		// printf( '12222111' );
-		// printf( $order_id );
-		// printf( '33333' );
-
 		$order = wc_get_order( $order_id );
-		// echo (string) $order;
 
 		$item_info = '';
-		// printf( 'test order item' );
-		// Get and Loop Over Order Items
 		foreach ( $order->get_items() as $item_id => $item ) {
 			$product_id   = $item->get_product_id();
 			$product      = $item->get_product();
 			$product_name = $item->get_name();
 			$quantity     = $item->get_quantity();
 			$price        = $item->get_subtotal();
-
 			$item_info = $item_info . sprintf(
 				'{
-        "id": "gla_%s",
-        "price": %s,
-        "google_business_vertical": "retail",
-        "name":"%s",
-        "quanitity":"%s",
-        }',
+                    "id": "gla_%s",
+                    "price": %s,
+                    "google_business_vertical": "retail",
+                    "name":"%s",
+                    "quanitity":"%s",
+                }',
 				esc_js( $product_id ),
 				esc_js( $price ),
 				esc_js( $product_name ),
@@ -310,10 +300,8 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 			);
 
 		}
-		// printf( $item_info );
 
 		$is_new_customer = false;
-
 		if ( $order->get_user_id() ) {
 		$total_orders = wc_get_customer_order_count( $order->get_user_id() );
 		} else {
@@ -324,8 +312,6 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
         if ( 'en_US' === $language ) {
             $language = 'English';
         }
-        // printf( 'test script' );
-        // echo esc_js( self::DEVELOPER_ID );
 		printf(
 			'<script>gtag(
 				"event", "purchase",
@@ -355,42 +341,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
                     esc_js( $order->get_shipping_postcode() ),
                     esc_js( WC()->countries->get_base_country() ),
                     esc_js( $language ),
-                );
-			// 
-		
-			// esc_js( get_local() ),
-		// printf( 'test script' );
-		// printf(
-		// 	'<script>gtag(
-		// 		"event", "purchase",
-		// 		{
-		// 			"developer_id.%s": "true",
-		// 		"ecomm_pagetype": "purchase",
-		// 		"send_to": "GLA",
-		// 		"transaction_id": "%s",
-		// 		"currency": "%s",fwp
-		// 		"country": "%s,
-		// 		"value": "%s",
-		// 		"new_customer": "%s",
-		// 		"tax": "%s",
-		// 		"shipping": "%s",
-		// 		"delivery_posatal_code": "%s",
-		// 		"aw_merchant_id": "%s",
-		// 		"aw_feed_country": "%s",
-		// 		// "aw_feed_language": "%s",
-		// 		items: [' . $item_info . ']}); </script>',
-		// 	esc_js( self::DEVELOPER_ID ),
-		// 	esc_js( $order->get_id() ),
-		// 	esc_js( $order->get_currency() ),
-		// 	esc_js( WC_Countries::get_base_country() ),
-		// 	esc_js( $order->get_total() ),
-		// 	esc_js( $is_new_customer ),
-		// 	esc_js( $order->get_cart_tax() ),
-		// 	esc_js( $order->get_total_shipping() ),
-		// 	esc_js( $order->get_shipping_postcode() ),
-		// 	esc_js( WC_Countries::get_base_country() ),
-		// 	// esc_js( get_local() ),
-		// );
+            );
 	}
 
 	/**
