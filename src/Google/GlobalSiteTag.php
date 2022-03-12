@@ -321,6 +321,9 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		}
 		$is_new_customer = ( $total_orders === 1 ) ? 'true' : 'false';
         $language = $this->wp->get_locale();
+        if ( 'en_US' === $language ) {
+            $language = 'English';
+        }
         // printf( 'test script' );
         // echo esc_js( self::DEVELOPER_ID );
 		printf(
