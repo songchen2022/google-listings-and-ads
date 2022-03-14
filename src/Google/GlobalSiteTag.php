@@ -375,7 +375,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		// 	esc_js( join( '& ', $product->get_categories() ) ),
 		// ) . $message;
 
-        return $message . "testestest1111111";
+        return "testestest1111111";
     }
 	/**
 	 * TODO: Should the Global Site Tag framework be used if there are no paid Ads campaigns?
