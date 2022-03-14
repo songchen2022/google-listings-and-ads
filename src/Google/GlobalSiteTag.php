@@ -109,11 +109,13 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 			},
 			1000005
 		);
-        // add_filter('wc_add_to_cart_message_html', 'custom_action_add_to_cart', 10, 2);
+
+        add_action('wp_ajax_woocommerce_add_to_cart', function () {
+            $this->woocommerce_ajax_add_to_cart();
+            }, 1000000);
 
         // add_filter( 'wc_add_to_cart_message', 'custom_add_to_cart_message' );
         // add_action('wp_ajax_woocommerce_add_to_cart', 'woocommerce_ajax_add_to_cart');
-
     // }
 
 	}
@@ -422,9 +424,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
     }
 
     function woocommerce_ajax_add_to_cart() {
-        echo "test";
-
-
+        echo "<p>test</p>";
     }
 
 	/**
