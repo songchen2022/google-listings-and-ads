@@ -44,6 +44,11 @@ use Automattic\WooCommerce\GoogleListingsAndAds\Proxies\WP;
 		// 	esc_js( $product->get_name() ),
 		// 	esc_js( join( '& ', $product->get_categories() ) ),
 		// ) . $message;
+        do_action(
+            'woocommerce_gla_debug_message',
+            sprintf( 'added to cart %s.', $message ),
+            __METHOD__
+        );
         return $message;
         // return '<p>test message</p>';
     }
