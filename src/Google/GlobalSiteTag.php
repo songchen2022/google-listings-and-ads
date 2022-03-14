@@ -44,8 +44,8 @@ use Automattic\WooCommerce\GoogleListingsAndAds\Proxies\WP;
 		// 	esc_js( $product->get_name() ),
 		// 	esc_js( join( '& ', $product->get_categories() ) ),
 		// ) . $message;
-        // return $message;
-        return '<p>test message</p>';
+        return $message;
+        // return '<p>test message</p>';
     }
 /**
  * Main class for Global Site Tag.
