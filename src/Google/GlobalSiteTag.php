@@ -116,8 +116,18 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
                 sprintf( 'test 1 - added to cart %s.', $message ),
                 __METHOD__
             );
-            $this->custom_action_add_to_cart($message, $products);
+            return $this->custom_action_add_to_cart($message, $products);
             }, 1000000, 2);
+
+
+        // add_action('wp_ajax_woocommerce_add_to_cart', function ($message, $products) {
+        //     do_action(
+        //         'woocommerce_gla_debug_message',
+        //         sprintf( 'test 1 - added to cart %s.', $message ),
+        //         __METHOD__
+        //     );
+        //     $this->custom_action_add_to_cart($message, $products);
+        //     }, 1000000, 2);
 
         // add_filter('wc_add_to_cart_message_html', 'custom_action_add_to_cart', 1000000, 2);
 
