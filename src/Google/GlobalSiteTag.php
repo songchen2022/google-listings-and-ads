@@ -437,6 +437,12 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
         add_action(
 			'wp_body_open',
 			function () use( $product ) {
+                do_action(
+                    'woocommerce_gla_debug_message',
+                    sprintf( 'test 3 - added to cart %s.', (string) $product ),
+                    __METHOD__
+                );
+
                 printf(
                     '<script>gtag("event", "add_to_cart", {
                         "send_to": "GLA",
