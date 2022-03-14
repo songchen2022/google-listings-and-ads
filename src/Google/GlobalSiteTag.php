@@ -110,6 +110,8 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 			1000005
 		);
         // add_filter('wc_add_to_cart_message_html', 'custom_action_add_to_cart', 10, 2);
+
+        add_filter( 'wc_add_to_cart_message', 'custom_add_to_cart_message' );
     // }
 
 	}
@@ -408,6 +410,15 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 
         return "testestest1111111";
     }
+
+    function custom_add_to_cart_message() {
+        // global $woocommerce;
+    
+            // $return_to  = get_permalink(woocommerce_get_page_id('shop'));
+            $message    = sprintf('<a>test</a>' );
+        return $message;
+    }
+
 	/**
 	 * TODO: Should the Global Site Tag framework be used if there are no paid Ads campaigns?
 	 *
