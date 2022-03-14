@@ -78,7 +78,6 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 			);
 		}
         else {
-
 			add_action(
 				'wp_head',
 				function () {
@@ -412,28 +411,62 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		// Only display on the add to cart button page.
 
         $product = wc_get_product( array_key_first ( $products ) );
-		$message = sprintf(
-			'<script>gtag("event", "add_to_cart", {
-				"send_to": "GLA",
-				"developer_id.%s": "true",
-				"ecomm_pagetype": "cart",
-				"value": "%s",
-				items:[{
-				"id": "gla_%s",
-				"price": %s,
-				"google_business_vertical": "retail",
-				"name":"%s",
-				"category":"%s",
-				}]});
-			</script>',
-			esc_js( self::DEVELOPER_ID ),
-			esc_js( (string) $product->get_price() ),
-			esc_js( $product->get_id() ),
-			esc_js( (string) $product->get_price() ),
-			esc_js( $product->get_name() ),
-			esc_js( join( '& ', $product->get_categories() ) ),
-		) . $message;
-        return $message . '<p>test message</p>' . '<script> </script>';
+		// $message = sprintf(
+		// 	'<script>gtag("event", "add_to_cart", {
+		// 		"send_to": "GLA",
+		// 		"developer_id.%s": "true",
+		// 		"ecomm_pagetype": "cart",
+		// 		"value": "%s",
+		// 		items:[{
+		// 		"id": "gla_%s",
+		// 		"price": %s,
+		// 		"google_business_vertical": "retail",
+		// 		"name":"%s",
+		// 		"category":"%s",
+		// 		}]});
+		// 	</script>',
+		// 	esc_js( self::DEVELOPER_ID ),
+		// 	esc_js( (string) $product->get_price() ),
+		// 	esc_js( $product->get_id() ),
+		// 	esc_js( (string) $product->get_price() ),
+		// 	esc_js( $product->get_name() ),
+		// 	esc_js( join( '& ', $product->get_categories() ) ),
+		// ) . $message;
+        // return $message . '<p>test message</p>' . '<script> </script>';
+
+        add_action(
+			'wp_body_open',
+			function () use( $product ) {
+                printf(
+                    '<script>gtag("event", "add_to_cart", {
+                        "send_to": "GLA",
+                        "developer_id.%s": "true",
+                        "ecomm_pagetype": "cart",
+                        "value": "%s",
+                        items:[{
+                        "id": "gla_%s",
+                        "price": %s,
+                        "google_business_vertical": "retail",
+                        "name":"%s",
+                        "category":"%s",
+                        }]});
+                    </script>',
+                    esc_js( self::DEVELOPER_ID ),
+                    esc_js( (string) $product->get_price() ),
+                    esc_js( $product->get_id() ),
+                    esc_js( (string) $product->get_price() ),
+                    esc_js( $product->get_name() ),
+                    esc_js( join( '& ', $product->get_categories() ) ),
+                );
+            },
+			1000005
+		);
+
+        do_action(
+			'wp_body_open'
+		);
+
+        return $message;
     }
 
     function custom_add_to_cart_message() {
