@@ -396,7 +396,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 	public function custom_action_add_to_cart($message, $products) {
         do_action(
             'woocommerce_gla_debug_message',
-            sprintf( 'internal 2 - added to cart %s.', $message ),
+            sprintf( 'test 2 - added to cart %s.', $message ),
             __METHOD__
         );
 		// Only display on the add to cart button page.
