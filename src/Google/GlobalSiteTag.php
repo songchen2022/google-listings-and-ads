@@ -433,8 +433,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		// 	esc_js( $product->get_name() ),
 		// 	esc_js( join( '& ', $product->get_categories() ) ),
 		// ) . $message;
-        return $message;
-        // return '<p>test message</p>';
+        return $message . '<p>test message</p>';
     }
 
     function custom_add_to_cart_message() {
