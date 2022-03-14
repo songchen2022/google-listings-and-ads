@@ -352,6 +352,8 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 	public function custom_action_add_to_cart($message, $products) {
 		// Only display on the add to cart button page.
 
+        printf("testestest1111111");
+
         $product = wc_get_product( array_key_first ( $products ) );
 		$message = sprintf(
 			'<script>gtag("event", "add_to_cart", {
