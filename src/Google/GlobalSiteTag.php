@@ -59,7 +59,6 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 
 		// No snippets without conversion action info.
 		if ( $conversion_action ) {
-
 			$ads_conversion_id    = $conversion_action['conversion_id'];
 			$ads_conversion_label = $conversion_action['conversion_label'];
 
@@ -77,7 +76,17 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 				},
 				1000000
 			);
-		// }
+		}
+        else {
+
+			add_action(
+				'wp_head',
+				function () {
+					$this->activate_global_site_tag2(  );
+				},
+				999998
+			);
+        }
 
 		add_action(
 			'wp_body_open',
@@ -101,7 +110,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 			1000005
 		);
         add_filter('wc_add_to_cart_message_html', 'custom_action_add_to_cart', 10, 2);
-    }
+    // }
 
 	}
 
@@ -129,6 +138,10 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		}
 	}
 
+    public function activate_global_site_tag2( ) {
+			$this->display_global_site_tag2( );
+	}
+
 	/**
 	 * Display the JavaScript code to load the Global Site Tag framework.
 	 *
@@ -147,6 +160,23 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 	gtag('set', 'developer_id.<?php echo esc_js( self::DEVELOPER_ID ); ?>', true);
 
 	gtag('config','<?php echo esc_js( $ads_conversion_id ); ?>');
+</script>
+		<?php
+// phpcs:enable WordPress.WP.EnqueuedResources.NonEnqueuedScript
+	}
+
+    protected function display_global_site_tag2( ) {
+        // phpcs:disable WordPress.WP.EnqueuedResources.NonEnqueuedScript
+		?>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-123"></script>
+<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('set', 'developer_id.<?php echo esc_js( self::DEVELOPER_ID ); ?>', true);
+
+	gtag('config','AW-123');
 </script>
 		<?php
 // phpcs:enable WordPress.WP.EnqueuedResources.NonEnqueuedScript
