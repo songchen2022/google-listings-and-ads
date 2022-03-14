@@ -100,6 +100,8 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 			},
 			1000005
 		);
+        add_action('woocommerce_add_to_cart', 'custom_action_add_to_cart', 20, 6);
+
 	}
 
 	/**
@@ -344,6 +346,35 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
             );
 	}
 
+    /**
+	 * Display the JavaScript code to track the purchase page.
+	 */
+	public function custom_action_add_to_cart(): void {
+		// Only display on the add to cart button page.
+        $product = wc_get_product( get_the_ID() );
+		printf(
+			'<script>gtag("event", "add_to_cart", {
+				"send_to": "GLA",
+				"developer_id.%s": "true",
+				"ecomm_pagetype": "cart",
+				"value": "%s",
+				items:[{
+				"id": "gla_%s",
+				"price": %s,
+				"google_business_vertical": "retail",
+				"name":"%s",
+				"category":"%s",
+				}]});
+			</script>',
+			esc_js( self::DEVELOPER_ID ),
+			esc_js( (string) $product->get_price() ),
+			esc_js( $product->get_id() ),
+			esc_js( (string) $product->get_price() ),
+			esc_js( $product->get_name() ),
+			esc_js( join( '& ', $product->get_categories() ) ),
+		);
+	
+    }
 	/**
 	 * TODO: Should the Global Site Tag framework be used if there are no paid Ads campaigns?
 	 *
