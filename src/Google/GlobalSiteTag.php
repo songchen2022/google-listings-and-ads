@@ -349,35 +349,33 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
     /**
 	 * Display the JavaScript code to track the purchase page.
 	 */
-	public function custom_action_add_to_cart($message, $products) {
+	public function custom_action_add_to_cart($message, $products, $show_qty) {
 		// Only display on the add to cart button page.
 
-        printf("testestest1111111");
+        // $product = wc_get_product( array_key_first ( $products ) );
+		// $message = sprintf(
+		// 	'<script>gtag("event", "add_to_cart", {
+		// 		"send_to": "GLA",
+		// 		"developer_id.%s": "true",
+		// 		"ecomm_pagetype": "cart",
+		// 		"value": "%s",
+		// 		items:[{
+		// 		"id": "gla_%s",
+		// 		"price": %s,
+		// 		"google_business_vertical": "retail",
+		// 		"name":"%s",
+		// 		"category":"%s",
+		// 		}]});
+		// 	</script>',
+		// 	esc_js( self::DEVELOPER_ID ),
+		// 	esc_js( (string) $product->get_price() ),
+		// 	esc_js( $product->get_id() ),
+		// 	esc_js( (string) $product->get_price() ),
+		// 	esc_js( $product->get_name() ),
+		// 	esc_js( join( '& ', $product->get_categories() ) ),
+		// ) . $message;
 
-        $product = wc_get_product( array_key_first ( $products ) );
-		$message = sprintf(
-			'<script>gtag("event", "add_to_cart", {
-				"send_to": "GLA",
-				"developer_id.%s": "true",
-				"ecomm_pagetype": "cart",
-				"value": "%s",
-				items:[{
-				"id": "gla_%s",
-				"price": %s,
-				"google_business_vertical": "retail",
-				"name":"%s",
-				"category":"%s",
-				}]});
-			</script>',
-			esc_js( self::DEVELOPER_ID ),
-			esc_js( (string) $product->get_price() ),
-			esc_js( $product->get_id() ),
-			esc_js( (string) $product->get_price() ),
-			esc_js( $product->get_name() ),
-			esc_js( join( '& ', $product->get_categories() ) ),
-		) . $message;
-
-        return $message;
+        return $message . "testestest1111111";
     }
 	/**
 	 * TODO: Should the Global Site Tag framework be used if there are no paid Ads campaigns?
