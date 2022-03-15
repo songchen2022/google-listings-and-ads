@@ -76,23 +76,22 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 				},
 				1000000
 			);
-		}
-        else {
+		} else {
 			add_action(
 				'wp_head',
 				function () {
-					$this->activate_global_site_tag2(  );
+					$this->activate_global_site_tag2();
 				},
 				999998
 			);
-        }
+		}
 
-        add_action(
+		add_action(
 			'wp_body_open',
 			function () {
 				$this->display_page_view_event_snippet();
 			},
-			1000000
+			1000009
 		);
 
 		add_action(
@@ -117,9 +116,14 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 			1000005
 		);
 
-        add_filter('wc_add_to_cart_message_html', function ($message, $products) {
-            return $this->custom_action_add_to_cart($message, $products);
-            }, 1000000, 2);
+		add_filter(
+			'wc_add_to_cart_message_html',
+			function ( $message, $products ) {
+				return $this->custom_action_add_to_cart( $message, $products );
+			},
+			1000000,
+			2
+		);
 	}
 
 	/**
@@ -146,8 +150,8 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		}
 	}
 
-    public function activate_global_site_tag2( ) {
-			$this->display_global_site_tag2( );
+	public function activate_global_site_tag2() {
+			$this->display_global_site_tag2();
 	}
 
 	/**
@@ -173,7 +177,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 // phpcs:enable WordPress.WP.EnqueuedResources.NonEnqueuedScript
 	}
 
-    protected function display_global_site_tag2( ) {
+	protected function display_global_site_tag2() {
         // phpcs:disable WordPress.WP.EnqueuedResources.NonEnqueuedScript
 		?>
 
@@ -258,18 +262,18 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		);
 	}
 
-    /**
+	/**
 	 * Display the JavaScript code to track all pages.
 	 */
 	public function display_page_view_event_snippet(): void {
-        printf(
+		printf(
 			'<script>gtag("event", "page_view", {
 				"send_to": "GLA",
-				"developer_id.%s": "true",
-				}]});
+				"developer_id.%s": "true",});
 			</script>',
-			esc_js( self::DEVELOPER_ID ) );
-    }
+			esc_js( self::DEVELOPER_ID )
+		);
+	}
 
 	/**
 	 * Display the JavaScript code to track the cart page.
@@ -338,7 +342,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 			$product_name = $item->get_name();
 			$quantity     = $item->get_quantity();
 			$price        = $item->get_subtotal();
-			$item_info = $item_info . sprintf(
+			$item_info    = $item_info . sprintf(
 				'{
                     "id": "gla_%s",
                     "price": %s,
@@ -356,15 +360,15 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 
 		$is_new_customer = false;
 		if ( $order->get_user_id() ) {
-		$total_orders = wc_get_customer_order_count( $order->get_user_id() );
+			$total_orders = wc_get_customer_order_count( $order->get_user_id() );
 		} else {
-		$total_orders = WC_Order_Export_Data_Extractor::get_customer_order_count_by_email( $order->get_billing_email() );
+			$total_orders = WC_Order_Export_Data_Extractor::get_customer_order_count_by_email( $order->get_billing_email() );
 		}
 		$is_new_customer = ( $total_orders === 1 ) ? 'true' : 'false';
-        $language = $this->wp->get_locale();
-        if ( 'en_US' === $language ) {
-            $language = 'English';
-        }
+		$language        = $this->wp->get_locale();
+		if ( 'en_US' === $language ) {
+			$language = 'English';
+		}
 		printf(
 			'<script>gtag(
 				"event", "purchase",
@@ -383,32 +387,32 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
                     "aw_feed_country": "%s",   
                     "aw_feed_language": "%s",                 
                     items: [' . $item_info . ']}); </script>',
-                    esc_js( self::DEVELOPER_ID ),
-                    esc_js( $order->get_id() ),
-                    esc_js( $order->get_currency() ),
-			        esc_js( WC()->countries->get_base_country() ),
-			        esc_js( $order->get_total() ),
-			        esc_js( $is_new_customer ),
-                    esc_js( $order->get_cart_tax() ),
-                    esc_js( $order->get_total_shipping() ),
-                    esc_js( $order->get_shipping_postcode() ),
-                    esc_js( WC()->countries->get_base_country() ),
-                    esc_js( $language ),
-            );
+			esc_js( self::DEVELOPER_ID ),
+			esc_js( $order->get_id() ),
+			esc_js( $order->get_currency() ),
+			esc_js( WC()->countries->get_base_country() ),
+			esc_js( $order->get_total() ),
+			esc_js( $is_new_customer ),
+			esc_js( $order->get_cart_tax() ),
+			esc_js( $order->get_total_shipping() ),
+			esc_js( $order->get_shipping_postcode() ),
+			esc_js( WC()->countries->get_base_country() ),
+			esc_js( $language ),
+		);
 	}
 
-    /**
+	/**
 	 * Display the JavaScript code to track the purchase page.
 	 */
-	public function custom_action_add_to_cart($message, $products) {
+	public function custom_action_add_to_cart( $message, $products ) {
 		// Only display on the add to cart button page.
-        $product = wc_get_product( array_key_first ( $products ) );
+		$product = wc_get_product( array_key_first( $products ) );
 
-        add_action(
+		add_action(
 			'wp_body_open',
-			function () use( $product ) {
-                printf(
-                    '<script>gtag("event", "add_to_cart", {
+			function () use ( $product ) {
+				printf(
+					'<script>gtag("event", "add_to_cart", {
                         "send_to": "GLA",
                         "developer_id.%s": "true",
                         "ecomm_pagetype": "cart",
@@ -421,35 +425,35 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
                         "category":"%s",
                         }]});
                     </script>',
-                    esc_js( self::DEVELOPER_ID ),
-                    esc_js( (string) $product->get_price() ),
-                    esc_js( $product->get_id() ),
-                    esc_js( (string) $product->get_price() ),
-                    esc_js( $product->get_name() ),
-                    esc_js( join( '& ', $product->get_categories() ) ),
-                );
-            },
+					esc_js( self::DEVELOPER_ID ),
+					esc_js( (string) $product->get_price() ),
+					esc_js( $product->get_id() ),
+					esc_js( (string) $product->get_price() ),
+					esc_js( $product->get_name() ),
+					esc_js( join( '& ', $product->get_categories() ) ),
+				);
+			},
 			1000005
 		);
 
-        do_action(
+		do_action(
 			'wp_body_open'
 		);
 
-        return $message;
-    }
+		return $message;
+	}
 
-    function custom_add_to_cart_message() {
-        // global $woocommerce;
-    
-            // $return_to  = get_permalink(woocommerce_get_page_id('shop'));
-            $message    = sprintf('<a>test</a>' );
-        return $message;
-    }
+	function custom_add_to_cart_message() {
+		// global $woocommerce;
 
-    function woocommerce_ajax_add_to_cart() {
-        echo "<p>test</p>";
-    }
+			// $return_to  = get_permalink(woocommerce_get_page_id('shop'));
+			$message = sprintf( '<a>test</a>' );
+		return $message;
+	}
+
+	function woocommerce_ajax_add_to_cart() {
+		echo '<p>test</p>';
+	}
 
 	/**
 	 * TODO: Should the Global Site Tag framework be used if there are no paid Ads campaigns?
@@ -461,4 +465,4 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 	}
 }
 
- 
+
