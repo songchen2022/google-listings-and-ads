@@ -110,30 +110,8 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		);
 
         add_filter('wc_add_to_cart_message_html', function ($message, $products) {
-            do_action(
-                'woocommerce_gla_debug_message',
-                sprintf( 'test 1 - added to cart %s.', $message ),
-                __METHOD__
-            );
             return $this->custom_action_add_to_cart($message, $products);
             }, 1000000, 2);
-
-
-        // add_action('wp_ajax_woocommerce_add_to_cart', function ($message, $products) {
-        //     do_action(
-        //         'woocommerce_gla_debug_message',
-        //         sprintf( 'test 1 - added to cart %s.', $message ),
-        //         __METHOD__
-        //     );
-        //     $this->custom_action_add_to_cart($message, $products);
-        //     }, 1000000, 2);
-
-        // add_filter('wc_add_to_cart_message_html', 'custom_action_add_to_cart', 1000000, 2);
-
-        // add_filter( 'wc_add_to_cart_message', 'custom_add_to_cart_message' );
-        // add_action('wp_ajax_woocommerce_add_to_cart', 'woocommerce_ajax_add_to_cart');
-    // }
-
 	}
 
 	/**
@@ -336,7 +314,6 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		$item_info = '';
 		foreach ( $order->get_items() as $item_id => $item ) {
 			$product_id   = $item->get_product_id();
-			$product      = $item->get_product();
 			$product_name = $item->get_name();
 			$quantity     = $item->get_quantity();
 			$price        = $item->get_subtotal();
@@ -403,46 +380,12 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 	 * Display the JavaScript code to track the purchase page.
 	 */
 	public function custom_action_add_to_cart($message, $products) {
-        do_action(
-            'woocommerce_gla_debug_message',
-            sprintf( 'test 2 - added to cart %s.', $message ),
-            __METHOD__
-        );
 		// Only display on the add to cart button page.
-
         $product = wc_get_product( array_key_first ( $products ) );
-		// $message = sprintf(
-		// 	'<script>gtag("event", "add_to_cart", {
-		// 		"send_to": "GLA",
-		// 		"developer_id.%s": "true",
-		// 		"ecomm_pagetype": "cart",
-		// 		"value": "%s",
-		// 		items:[{
-		// 		"id": "gla_%s",
-		// 		"price": %s,
-		// 		"google_business_vertical": "retail",
-		// 		"name":"%s",
-		// 		"category":"%s",
-		// 		}]});
-		// 	</script>',
-		// 	esc_js( self::DEVELOPER_ID ),
-		// 	esc_js( (string) $product->get_price() ),
-		// 	esc_js( $product->get_id() ),
-		// 	esc_js( (string) $product->get_price() ),
-		// 	esc_js( $product->get_name() ),
-		// 	esc_js( join( '& ', $product->get_categories() ) ),
-		// ) . $message;
-        // return $message . '<p>test message</p>' . '<script> </script>';
 
         add_action(
 			'wp_body_open',
 			function () use( $product ) {
-                do_action(
-                    'woocommerce_gla_debug_message',
-                    sprintf( 'test 3 - added to cart %s.', (string) $product ),
-                    __METHOD__
-                );
-
                 printf(
                     '<script>gtag("event", "add_to_cart", {
                         "send_to": "GLA",
