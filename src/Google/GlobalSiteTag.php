@@ -87,6 +87,14 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 			);
         }
 
+        add_action(
+			'wp_body_open',
+			function () {
+				$this->display_page_view_event_snippet();
+			},
+			1000000
+		);
+
 		add_action(
 			'wp_body_open',
 			function () {
@@ -249,6 +257,19 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 			esc_js( join( '& ', $product->get_categories() ) ),
 		);
 	}
+
+    /**
+	 * Display the JavaScript code to track all pages.
+	 */
+	public function display_page_view_event_snippet(): void {
+        printf(
+			'<script>gtag("event", "page_view", {
+				"send_to": "GLA",
+				"developer_id.%s": "true",
+				}]});
+			</script>',
+			esc_js( self::DEVELOPER_ID ) );
+    }
 
 	/**
 	 * Display the JavaScript code to track the cart page.
