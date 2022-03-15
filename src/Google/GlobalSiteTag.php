@@ -312,7 +312,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		}
 		$value = WC()->cart->total;
 		printf(
-			'<script>gtag(
+			'\n<script>gtag(
 				"event", "page_view",
 				{"send_to": "GLA",
 				"ecomm_pagetype": "cart",
@@ -405,7 +405,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 	 * Display the JavaScript code to track the purchase page.
 	 */
 	public function custom_action_add_to_cart( $message, $products ) {
-		// Only display on the add to cart button page.
+		// Only display this tag info after click the add to cart button .
 		$product = wc_get_product( array_key_first( $products ) );
 
 		add_action(
@@ -441,18 +441,6 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		);
 
 		return $message;
-	}
-
-	function custom_add_to_cart_message() {
-		// global $woocommerce;
-
-			// $return_to  = get_permalink(woocommerce_get_page_id('shop'));
-			$message = sprintf( '<a>test</a>' );
-		return $message;
-	}
-
-	function woocommerce_ajax_add_to_cart() {
-		echo '<p>test</p>';
 	}
 
 	/**
