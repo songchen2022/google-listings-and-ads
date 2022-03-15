@@ -326,7 +326,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 				{"send_to": "GLA",
 				"ecomm_pagetype": "cart",
 				"value": "%s",
-				 items: [' . esc_js( $item_info ) . ']}); </script>',
+				 items: [' .  $item_info  . ']}); </script>',
 			esc_js( $value ),
 		);
 	}
@@ -395,7 +395,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
                     "delivery_posatal_code": "%s",
                     "aw_feed_country": "%s",   
                     "aw_feed_language": "%s",                 
-                    items: [' . esc_js( $item_info ) . ']}); </script>',
+                    items: [' . $item_info  . ']}); </script>',
 			esc_js( self::DEVELOPER_ID ),
 			esc_js( $order->get_id() ),
 			esc_js( $order->get_currency() ),
