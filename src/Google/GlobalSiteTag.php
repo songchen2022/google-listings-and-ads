@@ -311,8 +311,8 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 			);
 		}
 		$value = WC()->cart->total;
-		printf(
-			'\n<script>gtag(
+		printf('
+            <script>gtag(
 				"event", "page_view",
 				{"send_to": "GLA",
 				"ecomm_pagetype": "cart",
