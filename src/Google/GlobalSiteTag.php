@@ -222,8 +222,8 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		$order->save_meta_data();
 
 		printf(
-			'<script>gtag(
-                "event", "conversion", 
+			'<script>
+            gtag("event", "conversion", 
                 {"send_to": "%s",
                  "value": "%s",
                  "currency": "%s",
@@ -246,19 +246,19 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		}
 		$product = wc_get_product( get_the_ID() );
 		printf(
-			'<script>gtag(
-                "event", "view_item", {
-				"send_to": "GLA",
-				"developer_id.%s": "true",
-				"ecomm_pagetype": "product",
-				"value": "%s",
-				items:[{
-				"id": "gla_%s",
-				"price": %s,
-				"google_business_vertical": "retail",
-				"name":"%s",
-				"category":"%s",
-				}]});
+			'<script>
+                gtag("event", "view_item", {
+                    "send_to": "GLA",
+                    "developer_id.%s": "true",
+                    "ecomm_pagetype": "product",
+                    "value": "%s",
+                    items:[{
+                    "id": "gla_%s",
+                    "price": %s,
+                    "google_business_vertical": "retail",
+                    "name":"%s",
+                    "category":"%s",
+                    }]});
 			</script>',
 			esc_js( self::DEVELOPER_ID ),
 			esc_js( (string) $product->get_price() ),
@@ -274,10 +274,11 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 	 */
 	public function display_page_view_event_snippet(): void {
 		printf(
-			'<script>gtag(
-                "event", "page_view", {
-				"send_to": "GLA",
-				"developer_id.%s": "true",});
+			'<script>
+                gtag(
+                    "event", "page_view", {
+                    "send_to": "GLA",
+                    "developer_id.%s": "true",});
 			</script>',
 			esc_js( self::DEVELOPER_ID )
 		);
@@ -320,8 +321,8 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		}
 		$value = WC()->cart->total;
 		printf(
-			'<script>gtag(
-				"event", "page_view",
+			'<script>
+            gtag("event", "page_view",
 				{"send_to": "GLA",
 				"ecomm_pagetype": "cart",
 				"value": "%s",
@@ -421,18 +422,18 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 			function () use ( $product ) {
 				printf(
 					'<script>
-                    gtag("event", "add_to_cart", {
-                        "send_to": "GLA",
-                        "developer_id.%s": "true",
-                        "ecomm_pagetype": "cart",
-                        "value": "%s",
-                        items:[{
-                        "id": "gla_%s",
-                        "price": %s,
-                        "google_business_vertical": "retail",
-                        "name":"%s",
-                        "category":"%s",
-                        }]});
+                        gtag("event", "add_to_cart", {
+                            "send_to": "GLA",
+                            "developer_id.%s": "true",
+                            "ecomm_pagetype": "cart",
+                            "value": "%s",
+                            items:[{
+                            "id": "gla_%s",
+                            "price": %s,
+                            "google_business_vertical": "retail",
+                            "name":"%s",
+                            "category":"%s",
+                            }]});
                     </script>',
 					esc_js( self::DEVELOPER_ID ),
 					esc_js( (string) $product->get_price() ),
