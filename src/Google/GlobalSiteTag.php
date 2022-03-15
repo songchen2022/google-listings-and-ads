@@ -317,8 +317,9 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 				{"send_to": "GLA",
 				"ecomm_pagetype": "cart",
 				"value": "%s",
-				items: [' . $item_info . ']}); </script>',
-			esc_js( $value )
+				 items: [' . esc_js( $item_info ) . ']}); </script>',
+
+			esc_js( $value ),
 		);
 	}
 
