@@ -53,9 +53,9 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 	 * @param WP           $wp
 	 */
 	public function __construct( GoogleGtagJs $gtag_js, WP $wp, ProductHelper $product_helper ) {
-		$this->gtag_js = $gtag_js;
-		$this->wp      = $wp;
-		$this->product_helper  = $product_helper;
+		$this->gtag_js        = $gtag_js;
+		$this->wp             = $wp;
+		$this->product_helper = $product_helper;
 	}
 
 	/**
@@ -231,7 +231,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 			esc_js( $product->get_id() ),
 			esc_js( (string) $product->get_price() ),
 			esc_js( $product->get_name() ),
-			esc_js( join( '& ', $this->product_helper->get_categories($product) ) ),
+			esc_js( join( '& ', $this->product_helper->get_categories( $product ) ) ),
 		);
 	}
 
@@ -286,7 +286,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 				esc_js( $quantity )
 			);
 		}
-		$value = WC()->cart->total;
+		$value          = WC()->cart->total;
 		$page_view_gtag = sprintf(
 			'gtag("event", "page_view",
 				{"send_to": "GLA",
@@ -295,7 +295,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 				 items: [' . $item_info . ']});',
 			esc_js( $value ),
 		);
-		wp_print_inline_script_tag($page_view_gtag);
+		wp_print_inline_script_tag( $page_view_gtag );
 	}
 
 	/**
@@ -334,7 +334,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 
 		}
 
-		$is_new_customer = is_first_time_customer($order->get_billing_email());
+		$is_new_customer = is_first_time_customer( $order->get_billing_email() );
 		$language        = $this->wp->get_locale();
 		if ( 'en_US' === $language ) {
 			$language = 'English';
@@ -356,7 +356,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
                     "delivery_postal_code": "%s",
                     "aw_feed_country": "%s",   
                     "aw_feed_language": "%s",                 
-                    items: [' .  $item_info . ']}); </script>',
+                    items: [' . $item_info . ']}); </script>',
 			esc_js( self::DEVELOPER_ID ),
 			esc_js( $order->get_id() ),
 			esc_js( $order->get_currency() ),
@@ -404,7 +404,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 					esc_js( $product->get_id() ),
 					esc_js( (string) $product->get_price() ),
 					esc_js( $product->get_name() ),
-					esc_js( join( '& ', $this->product_helper->get_categories($product) ) ),
+					esc_js( join( '& ', $this->product_helper->get_categories( $product ) ) ),
 				);
 			}
 		);
@@ -427,16 +427,18 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 
 	/**
 	 * Check if it is the new customer order.
+	 *
 	 * @param string $customer_email Customer email address.
 	 * @return bool True if this is new customer order.
 	 */
-	private static function is_first_time_customer($customer_email): bool {
-		$query = new WC_Order_Query( array(
-			'return' => 'ids',
-		)
-	);
+	private static function is_first_time_customer( $customer_email ): bool {
+		$query = new WC_Order_Query(
+			[
+				'return' => 'ids',
+			]
+		);
 		$query->set( 'customer', $customer_email );
 		$orders = $query->get_orders();
-		return var_dump(count($orders)) === 1;
+		return count( $orders ) === 1;
 	}
 }
