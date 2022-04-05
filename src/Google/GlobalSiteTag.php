@@ -334,7 +334,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 
 		}
 
-		$is_new_customer = is_first_time_customer( $order->get_billing_email() );
+		$is_new_customer = $this->is_first_time_customer( $order->get_billing_email() );
 		$language        = $this->wp->get_locale();
 		if ( 'en_US' === $language ) {
 			$language = 'English';
