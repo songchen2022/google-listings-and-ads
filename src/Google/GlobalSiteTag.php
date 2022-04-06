@@ -238,7 +238,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		do_action(
 			'woocommerce_gla_debug_message',
 			sprintf('is new order is %s',
-			(string) $is_new_customer),
+			$is_new_customer),
 			__METHOD__
 		);
 
@@ -539,6 +539,6 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		);
 		$query->set( 'customer', $customer_email );
 		$orders = $query->get_orders();
-		return count( $orders ) === 1? true: false;
+		return count( $orders ) === 1? 'true': 'false';
 	}
 }
