@@ -16,7 +16,7 @@ use Automattic\WooCommerce\GoogleListingsAndAds\Options\OptionsInterface;
 use Automattic\WooCommerce\GoogleListingsAndAds\Product\ProductHelper;
 use Automattic\WooCommerce\GoogleListingsAndAds\Proxies\GoogleGtagJs;
 use Automattic\WooCommerce\GoogleListingsAndAds\Proxies\WP;
-use Automattic\WooCommerce\GoogleListingsAndAds\Google\WC;
+use Automattic\WooCommerce\GoogleListingsAndAds\Proxies\WC;
 
 /**
  * Main class for Global Site Tag.
