@@ -479,7 +479,10 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 	 */
 	private function custom_action_add_to_cart( $message, $products ) {
 		// Only display this tag info after click the add to cart button .
-		$product = wc_get_product( array_key_first( $products ) );
+		// $product = wc_get_product( array_key_first( $products ) );
+
+		foreach ( $products as $product_id ) {
+		$product = wc_get_product( $product_id );
 
 		add_action(
 			'wp_footer',
@@ -508,6 +511,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 				);
 			}
 		);
+	}
 
 		do_action(
 			'wp_footer'
@@ -529,9 +533,9 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 	 * Check if it is the new customer order.
 	 *
 	 * @param string $customer_email Customer email address.
-	 * @return bool True if this is new customer order.
+	 * @return string True if this is new customer order.
 	 */
-	private static function is_first_time_customer( $customer_email ): bool {
+	private static function is_first_time_customer( $customer_email ): string {
 		$query = new \WC_Order_Query(
 			[
 				'return' => 'ids',
