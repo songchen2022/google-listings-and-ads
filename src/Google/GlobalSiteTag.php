@@ -92,7 +92,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 			'woocommerce_before_thankyou',
 			function ($order_id) use ( $ads_conversion_id, $ads_conversion_label ) {
 				$this->maybe_display_event_snippet( $ads_conversion_id, $ads_conversion_label, $order_id );
-				$this->display_purchase_page_snippet($order_id);
+				// $this->display_purchase_page_snippet($order_id);
 			},
 			1000000
 		);
@@ -204,6 +204,79 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 			esc_js( $order->get_currency() ),
 			esc_js( $order->get_id() ),
 		);
+
+		$item_info = '';
+		foreach ( $order->get_items() as $item_id => $item ) {
+			$product_id   = $item->get_product_id();
+			$product_name = $item->get_name();
+			$quantity     = $item->get_quantity();
+			$price        = $item->get_subtotal();
+			$item_info    = $item_info . sprintf(
+				'{
+                    "id": "gla_%s",
+                    "price": %s,
+                    "google_business_vertical": "retail",
+                    "name":"%s",
+                    "quantity":"%s",
+                }',
+				esc_js( $product_id ),
+				esc_js( $price ),
+				esc_js( $product_name ),
+				esc_js( $quantity ),
+			);
+
+		}
+
+		do_action(
+			'woocommerce_gla_debug_message',
+			sprintf('item infor is %s',
+			(string) $item_info),
+			__METHOD__
+		);
+
+		$is_new_customer = $this->is_first_time_customer( $order->get_billing_email() );
+		do_action(
+			'woocommerce_gla_debug_message',
+			sprintf('is new order is %s',
+			(string) $is_new_customer),
+			__METHOD__
+		);
+
+
+		$language        = $this->wp->get_locale();
+		if ( 'en_US' === $language ) {
+			$language = 'English';
+		}
+		printf(
+			'<script>
+            gtag("event", "purchase",
+				{
+                    "developer_id.%s": "true",
+                    "ecomm_pagetype": "purchase",
+                    "send_to": "GLA",
+                    "transaction_id": "%s",
+                    "currency": "%s",
+                    "country": "%s",
+                    "value": "%s",
+                    "new_customer": "%s",
+                    "tax": "%s",
+                    "shipping": "%s",
+                    "delivery_postal_code": "%s",
+                    "aw_feed_country": "%s",   
+                    "aw_feed_language": "%s",                 
+                    items: [' . $item_info . ']}); </script>',
+			esc_js( self::DEVELOPER_ID ),
+			esc_js( $order->get_id() ),
+			esc_js( $order->get_currency() ),
+			esc_js( $this->wc->get_base_country() ),
+			esc_js( $order->get_total() ),
+			esc_js( $is_new_customer ),
+			esc_js( $order->get_cart_tax() ),
+			esc_js( $order->get_total_shipping() ),
+			esc_js( $order->get_shipping_postcode() ),
+			esc_js( $this->wc->get_base_country() ),
+			esc_js( $language ),
+		);
 	}
 
 	/**
@@ -305,98 +378,98 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 	/**
 	 * Display the JavaScript code to track the purchase page.
 	 */
-	private function display_purchase_page_snippet(): void {
-		// Only display on the order confirmation page.
-		if ( ! is_order_received_page() ) {
-			return;
-		}
-		$order_id = $this->wp->get_query_vars( 'order-received', 0 );
-		if ( empty( $order_id ) ) {
-			return;
-		}
-		$order = wc_get_order( $order_id );
+// 	private function display_purchase_page_snippet(): void {
+// 		// Only display on the order confirmation page.
+// 		if ( ! is_order_received_page() ) {
+// 			return;
+// 		}
+// 		$order_id = $this->wp->get_query_vars( 'order-received', 0 );
+// 		if ( empty( $order_id ) ) {
+// 			return;
+// 		}
+// 		$order = wc_get_order( $order_id );
 
 
-do_action(
-	'woocommerce_gla_debug_message',
-	sprintf('order is %s',
-	(string) $order),
-	__METHOD__
-);
+// do_action(
+// 	'woocommerce_gla_debug_message',
+// 	sprintf('order is %s',
+// 	(string) $order),
+// 	__METHOD__
+// );
 
-		$item_info = '';
-		foreach ( $order->get_items() as $item_id => $item ) {
-			$product_id   = $item->get_product_id();
-			$product_name = $item->get_name();
-			$quantity     = $item->get_quantity();
-			$price        = $item->get_subtotal();
-			$item_info    = $item_info . sprintf(
-				'{
-                    "id": "gla_%s",
-                    "price": %s,
-                    "google_business_vertical": "retail",
-                    "name":"%s",
-                    "quantity":"%s",
-                }',
-				esc_js( $product_id ),
-				esc_js( $price ),
-				esc_js( $product_name ),
-				esc_js( $quantity ),
-			);
+// 		$item_info = '';
+// 		foreach ( $order->get_items() as $item_id => $item ) {
+// 			$product_id   = $item->get_product_id();
+// 			$product_name = $item->get_name();
+// 			$quantity     = $item->get_quantity();
+// 			$price        = $item->get_subtotal();
+// 			$item_info    = $item_info . sprintf(
+// 				'{
+//                     "id": "gla_%s",
+//                     "price": %s,
+//                     "google_business_vertical": "retail",
+//                     "name":"%s",
+//                     "quantity":"%s",
+//                 }',
+// 				esc_js( $product_id ),
+// 				esc_js( $price ),
+// 				esc_js( $product_name ),
+// 				esc_js( $quantity ),
+// 			);
 
-		}
+// 		}
 
-		do_action(
-			'woocommerce_gla_debug_message',
-			sprintf('order is %s',
-			(string) $item_info),
-			__METHOD__
-		);
+// 		do_action(
+// 			'woocommerce_gla_debug_message',
+// 			sprintf('order is %s',
+// 			(string) $item_info),
+// 			__METHOD__
+// 		);
 
-		$is_new_customer = $this->is_first_time_customer( $order->get_billing_email() );
-		do_action(
-			'woocommerce_gla_debug_message',
-			sprintf('order is %s',
-			(string) $is_new_customer),
-			__METHOD__
-		);
+// 		$is_new_customer = $this->is_first_time_customer( $order->get_billing_email() );
+// 		do_action(
+// 			'woocommerce_gla_debug_message',
+// 			sprintf('order is %s',
+// 			(string) $is_new_customer),
+// 			__METHOD__
+// 		);
 
 
-		$language        = $this->wp->get_locale();
-		if ( 'en_US' === $language ) {
-			$language = 'English';
-		}
-		printf(
-			'<script>
-            gtag("event", "purchase",
-				{
-                    "developer_id.%s": "true",
-                    "ecomm_pagetype": "purchase",
-                    "send_to": "GLA",
-                    "transaction_id": "%s",
-                    "currency": "%s",
-                    "country": "%s",
-                    "value": "%s",
-                    "new_customer": "%s",
-                    "tax": "%s",
-                    "shipping": "%s",
-                    "delivery_postal_code": "%s",
-                    "aw_feed_country": "%s",   
-                    "aw_feed_language": "%s",                 
-                    items: [' . $item_info . ']}); </script>',
-			esc_js( self::DEVELOPER_ID ),
-			esc_js( $order->get_id() ),
-			esc_js( $order->get_currency() ),
-			esc_js( $this->wc->get_base_country() ),
-			esc_js( $order->get_total() ),
-			esc_js( $is_new_customer ),
-			esc_js( $order->get_cart_tax() ),
-			esc_js( $order->get_total_shipping() ),
-			esc_js( $order->get_shipping_postcode() ),
-			esc_js( $this->wc->get_base_country() ),
-			esc_js( $language ),
-		);
-	}
+// 		$language        = $this->wp->get_locale();
+// 		if ( 'en_US' === $language ) {
+// 			$language = 'English';
+// 		}
+// 		printf(
+// 			'<script>
+//             gtag("event", "purchase",
+// 				{
+//                     "developer_id.%s": "true",
+//                     "ecomm_pagetype": "purchase",
+//                     "send_to": "GLA",
+//                     "transaction_id": "%s",
+//                     "currency": "%s",
+//                     "country": "%s",
+//                     "value": "%s",
+//                     "new_customer": "%s",
+//                     "tax": "%s",
+//                     "shipping": "%s",
+//                     "delivery_postal_code": "%s",
+//                     "aw_feed_country": "%s",   
+//                     "aw_feed_language": "%s",                 
+//                     items: [' . $item_info . ']}); </script>',
+// 			esc_js( self::DEVELOPER_ID ),
+// 			esc_js( $order->get_id() ),
+// 			esc_js( $order->get_currency() ),
+// 			esc_js( $this->wc->get_base_country() ),
+// 			esc_js( $order->get_total() ),
+// 			esc_js( $is_new_customer ),
+// 			esc_js( $order->get_cart_tax() ),
+// 			esc_js( $order->get_total_shipping() ),
+// 			esc_js( $order->get_shipping_postcode() ),
+// 			esc_js( $this->wc->get_base_country() ),
+// 			esc_js( $language ),
+// 		);
+// 	}
 
 	/**
 	 * Display the JavaScript code to track the add to cart button.
