@@ -366,7 +366,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 			esc_js( $order->get_cart_tax() ),
 			esc_js( $order->get_total_shipping() ),
 			esc_js( $order->get_shipping_postcode() ),
-			esc_js( WC()->countries->get_base_country() ),
+			esc_js( $this->wc->get_base_country() ),
 			esc_js( $language ),
 		);
 	}
