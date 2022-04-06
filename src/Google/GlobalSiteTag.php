@@ -312,6 +312,14 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		}
 		$order = wc_get_order( $order_id );
 
+
+do_action(
+	'woocommerce_gla_debug_message',
+	sprintf('order is %s',
+	(string) $order),
+	__METHOD__
+);
+
 		$item_info = '';
 		foreach ( $order->get_items() as $item_id => $item ) {
 			$product_id   = $item->get_product_id();
@@ -334,7 +342,22 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 
 		}
 
+		do_action(
+			'woocommerce_gla_debug_message',
+			sprintf('order is %s',
+			(string) $item_info),
+			__METHOD__
+		);
+
 		$is_new_customer = $this->is_first_time_customer( $order->get_billing_email() );
+		do_action(
+			'woocommerce_gla_debug_message',
+			sprintf('order is %s',
+			(string) $is_new_customer),
+			__METHOD__
+		);
+
+
 		$language        = $this->wp->get_locale();
 		if ( 'en_US' === $language ) {
 			$language = 'English';
