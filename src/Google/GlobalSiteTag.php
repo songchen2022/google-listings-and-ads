@@ -16,6 +16,7 @@ use Automattic\WooCommerce\GoogleListingsAndAds\Options\OptionsInterface;
 use Automattic\WooCommerce\GoogleListingsAndAds\Product\ProductHelper;
 use Automattic\WooCommerce\GoogleListingsAndAds\Proxies\GoogleGtagJs;
 use Automattic\WooCommerce\GoogleListingsAndAds\Proxies\WP;
+use Automattic\WooCommerce\GoogleListingsAndAds\Google\WC;
 
 /**
  * Main class for Global Site Tag.
@@ -47,15 +48,23 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 	protected $product_helper;
 
 	/**
+	 * @var WC
+	 */
+	protected $wc;
+
+	/**
 	 * Global Site Tag constructor.
 	 *
-	 * @param GoogleGtagJs $gtag_js
-	 * @param WP           $wp
+	 * @param GoogleGtagJs  $gtag_js
+	 * @param WP            $wp
+	 * @param ProductHelper $product_helpe
+	 * @param WC            $wc
 	 */
-	public function __construct( GoogleGtagJs $gtag_js, WP $wp, ProductHelper $product_helper ) {
+	public function __construct( GoogleGtagJs $gtag_js, WP $wp, ProductHelper $product_helper, WC $wc ) {
 		$this->gtag_js        = $gtag_js;
 		$this->wp             = $wp;
 		$this->product_helper = $product_helper;
+	    $this->wc 			  = $wc;
 	}
 
 	/**
@@ -383,7 +392,7 @@ do_action(
 			esc_js( self::DEVELOPER_ID ),
 			esc_js( $order->get_id() ),
 			esc_js( $order->get_currency() ),
-			esc_js( WC()->countries->get_base_country() ),
+			esc_js( $this->wc->get_base_country() ),
 			esc_js( $order->get_total() ),
 			esc_js( $is_new_customer ),
 			esc_js( $order->get_cart_tax() ),
