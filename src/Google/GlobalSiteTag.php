@@ -455,7 +455,7 @@ do_action(
 	 * @return bool True if this is new customer order.
 	 */
 	private static function is_first_time_customer( $customer_email ): bool {
-		$query = new WC_Order_Query(
+		$query = new \WC_Order_Query(
 			[
 				'return' => 'ids',
 			]
