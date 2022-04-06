@@ -89,9 +89,10 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 			999998
 		);
 		add_action(
-			'wp_head',
-			function () use ( $ads_conversion_id, $ads_conversion_label ) {
-				$this->maybe_display_event_snippet( $ads_conversion_id, $ads_conversion_label );
+			'woocommerce_before_thankyou',
+			function ($order_id) use ( $ads_conversion_id, $ads_conversion_label ) {
+				$this->maybe_display_event_snippet( $ads_conversion_id, $ads_conversion_label, $order_id );
+				$this->display_purchase_page_snippet($order_id);
 			},
 			1000000
 		);
@@ -108,7 +109,6 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 			function () {
 				$this->display_page_view_event_snippet();
 				$this->display_cart_page_snippet();
-				$this->display_purchase_page_snippet();
 			}
 		);
 
@@ -175,14 +175,9 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 	 * @param string $ads_conversion_id Google Ads account conversion ID.
 	 * @param string $ads_conversion_label Google Ads conversion label.
 	 */
-	public function maybe_display_event_snippet( string $ads_conversion_id, string $ads_conversion_label ): void {
+	public function maybe_display_event_snippet( string $ads_conversion_id, string $ads_conversion_label, int $order_id): void {
 		// Only display on the order confirmation page.
 		if ( ! is_order_received_page() ) {
-			return;
-		}
-
-		$order_id = $this->wp->get_query_vars( 'order-received', 0 );
-		if ( empty( $order_id ) ) {
 			return;
 		}
 
@@ -471,6 +466,6 @@ do_action(
 		);
 		$query->set( 'customer', $customer_email );
 		$orders = $query->get_orders();
-		return count( $orders ) === 1;
+		return count( $orders ) === 1? true: false;
 	}
 }
