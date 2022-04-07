@@ -469,7 +469,8 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		// Only display this tag info after click the add to cart button .
 		// $product = wc_get_product( array_key_first( $products ) );
 
-		foreach ( $products as $product_id ) {
+		// foreach ( $products as $product_id ) {
+			foreach ( $products as $product ) {
 			do_action(
 				'woocommerce_gla_debug_message',
 				sprintf(
@@ -479,7 +480,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 				__METHOD__
 			);
 	
-		$product = wc_get_product( $product_id );
+		// $product = wc_get_product( $product_id );
 		do_action(
 			'woocommerce_gla_debug_message',
 			sprintf(
