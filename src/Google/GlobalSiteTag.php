@@ -470,6 +470,15 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		// $product = wc_get_product( array_key_first( $products ) );
 
 		foreach ( $products as $product_id ) {
+			do_action(
+				'woocommerce_gla_debug_message',
+				sprintf(
+					'All Product is %s',
+					$products
+				),
+				__METHOD__
+			);
+	
 		$product = wc_get_product( $product_id );
 		do_action(
 			'woocommerce_gla_debug_message',
