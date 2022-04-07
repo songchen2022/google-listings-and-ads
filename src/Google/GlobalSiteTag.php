@@ -474,7 +474,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 			do_action(
 				'woocommerce_gla_debug_message',
 				sprintf(
-					'All Product is %s',
+					'All Product ixxxxxxxxxs %s',
 					(string)$products
 				),
 				__METHOD__
@@ -484,7 +484,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		do_action(
 			'woocommerce_gla_debug_message',
 			sprintf(
-				'Product is %s',
+				'Product iyyyyyys %s',
 				(string)$product
 			),
 			__METHOD__
