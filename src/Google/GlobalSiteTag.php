@@ -74,12 +74,12 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		$conversion_action = $this->options->get( OptionsInterface::ADS_CONVERSION_ACTION );
 
 		// No snippets without conversion action info.
-		if ( ! $conversion_action ) {
-			return;
-		}
+		// if ( ! $conversion_action ) {
+		// 	return;
+		// }
 
-		$ads_conversion_id    = $conversion_action['conversion_id'];
-		$ads_conversion_label = $conversion_action['conversion_label'];
+		$ads_conversion_id    =  '0'; //$conversion_action['conversion_id'];
+		$ads_conversion_label = '0'; // $conversion_action['conversion_label'];
 
 		add_action(
 			'wp_head',
@@ -469,7 +469,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		// Only display this tag info after click the add to cart button .
 		// $product = wc_get_product( array_key_first( $products ) );
 
-		foreach ( $products as $product_id ) {
+		foreach ( $products as $product_id => $value ) {
 			// foreach ( $products as $product ) {
 			do_action(
 				'woocommerce_gla_debug_message',
@@ -513,7 +513,10 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 					esc_js( $product->get_id() ),
 					esc_js( (string) $product->get_price() ),
 					esc_js( $product->get_name() ),
-					esc_js( join( '& ', $this->product_helper->get_categories( $product ) ) ),
+					// esc_js(  $product->get_categories()  ),
+					// esc_js( join( '& ', $this->product_helper->get_categories( $product ) ) ),
+					esc_js(join( '& ',  $this->product_helper->get_categories( $product ) ) ),
+
 				);
 			}
 		);

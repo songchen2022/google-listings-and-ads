@@ -537,7 +537,36 @@ class ProductHelper implements Service {
 	 * @return array
 	 */
 	public function get_categories( WC_Product $product ): array {
-		$terms = get_the_terms( $product->get_id(), 'product_cat' );
-		return ( empty( $terms ) || is_wp_error( $terms ) ) ? [] : wp_list_pluck( $terms, 'categories' );
+		$terms = get_the_terms( $product->get_id(), 'category' );
+		do_action(
+			'woocommerce_gla_debug_message',
+			sprintf(
+				'Product iyyyyyys %s',
+				(string)$product
+			),
+			__METHOD__
+		);
+
+		// do_action(
+		// 	'woocommerce_gla_debug_message',
+		// 	sprintf(
+		// 		'terms iyyyyyys %s',
+		// 		(string)implode(" ",$terms)
+		// 	),
+		// 	__METHOD__
+		// );
+
+		// $test =  wp_list_pluck( $terms, 'categories' );
+		// do_action(
+		// 	'woocommerce_gla_debug_message',
+		// 	sprintf(
+		// 		'test iyyyyyys %s',
+		// 		(string)
+		// 		implode(" ",$test)
+		// 	),
+		// 	__METHOD__
+		// );
+
+		return ( empty( $terms ) || is_wp_error( $terms ) ) ? [] : wp_list_pluck( $terms, 'name' );
 	}
 }
