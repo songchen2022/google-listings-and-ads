@@ -547,6 +547,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 	private static function is_first_time_customer( $customer_email ): string {
 		$query = new \WC_Order_Query(
 			[
+				'limit' => '2',
 				'return' => 'ids',
 			]
 		);
