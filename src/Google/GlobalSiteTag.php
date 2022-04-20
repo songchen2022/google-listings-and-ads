@@ -71,6 +71,13 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 	 * Register the service.
 	 */
 	public function register(): void {
+    do_action(
+      'woocommerce_gla_debug_message',
+      sprintf(
+        'Test 1111'
+      ),
+      __METHOD__
+    );
 		$conversion_action = $this->options->get( OptionsInterface::ADS_CONVERSION_ACTION );
 
 		// No snippets without conversion action info.
