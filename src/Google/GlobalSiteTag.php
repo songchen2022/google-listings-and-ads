@@ -281,6 +281,14 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 	 * Display the JavaScript code to track the product view page.
 	 */
 	private function display_view_item_event_snippet(): void {
+    do_action(
+      'woocommerce_gla_debug_message',
+      sprintf(
+        'Test view'
+      ),
+      __METHOD__
+    );
+
 		// Only display on the product view page.
 		if ( ! is_product() ) {
 			return;
