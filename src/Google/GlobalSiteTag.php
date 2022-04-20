@@ -74,12 +74,12 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		$conversion_action = $this->options->get( OptionsInterface::ADS_CONVERSION_ACTION );
 
 		// No snippets without conversion action info.
-		if ( ! $conversion_action ) {
-			return;
-		}
+		// if ( ! $conversion_action ) {
+		// 	return;
+		// }
 
-		$ads_conversion_id    = $conversion_action['conversion_id'];
-		$ads_conversion_label = $conversion_action['conversion_label'];
+		$ads_conversion_id    = "0"; //$conversion_action['conversion_id'];
+		$ads_conversion_label = "0"; //$conversion_action['conversion_label'];
 
 		add_action(
 			'wp_head',
@@ -176,6 +176,15 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 	 * @param int    $order_id The order id.
 	 */
 	public function maybe_display_conversion_and_purchase_event_snippets( string $ads_conversion_id, string $ads_conversion_label, int $order_id ): void {
+
+    do_action(
+      'woocommerce_gla_debug_message',
+      sprintf(
+        'Test purchase'
+      ),
+      __METHOD__
+    );
+
 		// Only display on the order confirmation page.
 		if ( ! is_order_received_page() ) {
 			return;
@@ -382,7 +391,7 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
         'woocommerce_gla_debug_message',
         sprintf(
           'Test product %s',
-          $cproduct
+          $product
         ),
         __METHOD__
       );
