@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Class PolicyComplianceCheckController
  *
- * @package Automattic\WooCommerce\GoogleListingsAndAds\API\Site\Controllers
+ * @package Automattic\WooCommerce\GoogleListingsAndAds\API\Site\Controllers\MerchantCenter
  */
 class PolicyComplianceCheckController extends BaseController {
 
@@ -53,97 +53,78 @@ class PolicyComplianceCheckController extends BaseController {
 	 */
 	public function register_routes(): void {
 		$this->register_route(
-			'mc/policy_check',
+			'mc/policy_check/allowed_countries',
 			[
 				[
 					'methods'             => TransportMethods::READABLE,
-					'callback'            => $this->get_policy_check_callback(),
+					'callback'            => $this->get_allowed_countries(),
 					'permission_callback' => $this->get_permission_callback(),
 				],
+			]
+		);
+
+		$this->register_route(
+			'mc/policy_check/payment_gateways',
+			[
+				[
+					'methods'             => TransportMethods::READABLE,
+					'callback'            => $this->has_payment_gateways(),
+					'permission_callback' => $this->get_permission_callback(),
+				],
+				'schema' => $this->get_api_response_schema_callback(),
+			]
+		);
+
+		$this->register_route(
+			'mc/policy_check/ssl',
+			[
+				[
+					'methods'             => TransportMethods::READABLE,
+					'callback'            => $this->get_is_ssl(),
+					'permission_callback' => $this->get_permission_callback(),
+				],
+				'schema' => $this->get_api_response_schema_callback(),
+			]
+		);
+
+		$this->register_route(
+			'mc/policy_check/return_refund_policy',
+			[
+				[
+					'methods'             => TransportMethods::READABLE,
+					'callback'            => $this->has_refund_return_policy_page_content(),
+					'permission_callback' => $this->get_permission_callback(),
+				],
+				'schema' => $this->get_api_response_schema_callback(),
 			]
 		);
 	}
 
 	/**
-	 * Get the callback function for returning supported countries.
-	 *
-	 * @return callable
-	 */
-	protected function get_policy_check_callback(): callable {
-		return function() {
-			// return $this->get_supported_countries();
-      return array(
-        "allowed_countries" => $this->get_allowed_countries(),
-        "payment_gateways" => $this->get_has_payment_gateways(),
-        "is_ssl" => $this->get_is_ssl(),
-        "has_refund_return_policy_page_content" => $this->get_has_refund_return_policy_page_content()
-      );
-		};
-	}
-
-	/**
-	 * Get the array of supported countries.
-	 *
-	 * @return array
-	 */
-	protected function get_supported_countries(): array {
-		$all_countries = $this->wc->get_countries();
-		$mc_countries  = $this->google_helper->get_mc_supported_countries_currencies();
-
-		$supported = [];
-		foreach ( $mc_countries as $country => $currency ) {
-			if ( ! array_key_exists( $country, $all_countries ) ) {
-				continue;
-			}
-
-			$supported[ $country ] = [
-				'name'     => $all_countries[ $country ],
-				'currency' => $currency,
-			];
-		}
-
-		uasort(
-			$supported,
-			function( $a, $b ) {
-				return $a['name'] <=> $b['name'];
-			}
-		);
-
-		return $supported;
-	}
-
-	/**
-	 * Get the item schema name for the controller.
-	 *
-	 * Used for building the API response schema.
+	 * Get the allowed countries for the controller.
 	 *
 	 * @return array
 	 */
 	protected function get_allowed_countries(): array {
-    return $this->wc->get_allowed_countries();
+		return $this->wc->get_allowed_countries();
 	}
 
-  	/**
-	 * Get the item schema name for the controller.
+	/**
+	 * Check if the payment gateways is empty or not for the controller.
 	 *
-	 * Used for building the API response schema.
-	 *
-	 * @return string
+	 * @return bool
 	 */
-	protected function get_has_payment_gateways(): string {
+	protected function has_payment_gateways(): string {
 		$gateways = $this->wc->get_available_payment_gateways();
-    if ( empty ( $gateways)) {
-      return false;
-    }
-    else {
-      return true;
-    }
+		if ( empty( $gateways ) ) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
-   	/**
-	 * Get the item schema name for the controller.
-	 *
-	 * Used for building the API response schema.
+	/**
+	 * Check if the store is using SSL for the controller.
 	 *
 	 * @return string
 	 */
@@ -151,20 +132,28 @@ class PolicyComplianceCheckController extends BaseController {
 		return is_ssl();
 	}
 
-    	/**
+	/**
+	 * Check if the store has refund return policy page content for the controller.
+	 *
+	 * @return string
+	 */
+	protected function has_refund_return_policy_page_content(): string {
+		$results = WC_Install::get_refunds_return_policy_page_content();
+		if ( empty( $results ) ) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	/**
 	 * Get the item schema name for the controller.
 	 *
 	 * Used for building the API response schema.
 	 *
 	 * @return string
 	 */
-	protected function get_has_refund_return_policy_page_content(): string {
-		$results = WC_Install::get_refunds_return_policy_page_content();
-    if ( empty( $results ) ) {
-      return false;
-    }
-    else {
-      return true;
-    }
+	protected function get_schema_title(): string {
+		return 'policy_check';
 	}
 }

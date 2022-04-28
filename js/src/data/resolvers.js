@@ -132,6 +132,22 @@ export function* getCountries() {
 	yield fetchCountries();
 }
 
+export function* getAllowedCountries() {
+	yield fetchAllowedCountries();
+}
+
+export function* getPaymentGateways() {
+	yield fetchPaymentGateways();
+}
+
+export function* getIsSsl() {
+	yield fetchIsSsl();
+}
+
+export function* getRefundReturnPolicyContentPage() {
+	yield fetchRefundReturnPolicyContentPage();
+}
+
 export function* getTargetAudience() {
 	yield fetchTargetAudience();
 }

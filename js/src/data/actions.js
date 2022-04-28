@@ -654,6 +654,27 @@ export function* verifyPhoneNumber( verificationId, code, method ) {
 	}
 }
 
+export function* fetchAllowedCountries() {
+	try {
+		const response = yield apiFetch( {
+			path: `${ API_NAMESPACE }/mc/policy_check/allowed_countries`,
+		} );
+
+		return {
+			type: TYPES.RECEIVE_COUNTRIES,
+			countries: response,
+		};
+	} catch ( error ) {
+		yield handleFetchError(
+			error,
+			__(
+				'There was an error loading allowed country details.',
+				'google-listings-and-ads'
+			)
+		);
+	}
+}
+
 export function* fetchCountries() {
 	try {
 		const response = yield apiFetch( {
@@ -669,6 +690,69 @@ export function* fetchCountries() {
 			error,
 			__(
 				'There was an error loading supported country details.',
+				'google-listings-and-ads'
+			)
+		);
+	}
+}
+
+export function* fetchIsSsl() {
+	try {
+		const response = yield apiFetch( {
+			path: `${ API_NAMESPACE }/policy_check/ssl`,
+		} );
+
+		return {
+			type: TYPES.RECEIVE_COUNTRIES,
+			countries: response,
+		};
+	} catch ( error ) {
+		yield handleFetchError(
+			error,
+			__(
+				'There was an error loading ssl details.',
+				'google-listings-and-ads'
+			)
+		);
+	}
+}
+
+export function* fetchPaymentGateways() {
+	try {
+		const response = yield apiFetch( {
+			path: `${ API_NAMESPACE }/mc/policy_check/payment_gateways`,
+		} );
+
+		return {
+			type: TYPES.RECEIVE_COUNTRIES,
+			countries: response,
+		};
+	} catch ( error ) {
+		yield handleFetchError(
+			error,
+			__(
+				'There was an error loading payment gateways details.',
+				'google-listings-and-ads'
+			)
+		);
+	}
+}
+
+export function* fetchReturnRefundPolicyPageContent() {
+	try {
+		const response = yield apiFetch( {
+			path: `${ API_NAMESPACE }/mc/policy_check/return_refund_policy`,
+		} );
+
+		return {
+			type: TYPES.RECEIVE_COUNTRIES,
+			countries: response,
+		};
+	} catch ( error ) {
+		yield handleFetchError(
+			error,
+			__(
+				'There was an error loading return refund policy details.',
 				'google-listings-and-ads'
 			)
 		);
