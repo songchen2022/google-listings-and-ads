@@ -71,7 +71,6 @@ class PolicyComplianceCheckController extends BaseController {
 					'callback'            => $this->has_payment_gateways(),
 					'permission_callback' => $this->get_permission_callback(),
 				],
-				'schema' => $this->get_api_response_schema_callback(),
 			]
 		);
 
@@ -83,7 +82,6 @@ class PolicyComplianceCheckController extends BaseController {
 					'callback'            => $this->get_is_ssl(),
 					'permission_callback' => $this->get_permission_callback(),
 				],
-				'schema' => $this->get_api_response_schema_callback(),
 			]
 		);
 
@@ -95,7 +93,6 @@ class PolicyComplianceCheckController extends BaseController {
 					'callback'            => $this->has_refund_return_policy_page_content(),
 					'permission_callback' => $this->get_permission_callback(),
 				],
-				'schema' => $this->get_api_response_schema_callback(),
 			]
 		);
 	}
