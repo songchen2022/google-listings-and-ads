@@ -111,7 +111,7 @@ class PolicyComplianceCheckController extends BaseController {
 	 *
 	 * @return bool
 	 */
-	protected function has_payment_gateways(): string {
+	protected function has_payment_gateways(): bool {
 		$gateways = $this->wc->get_available_payment_gateways();
 		if ( empty( $gateways ) ) {
 			return false;
@@ -123,18 +123,18 @@ class PolicyComplianceCheckController extends BaseController {
 	/**
 	 * Check if the store is using SSL for the controller.
 	 *
-	 * @return string
+	 * @return bool
 	 */
-	protected function get_is_ssl(): string {
+	protected function get_is_ssl(): bool {
 		return is_ssl();
 	}
 
 	/**
 	 * Check if the store has refund return policy page content for the controller.
 	 *
-	 * @return string
+	 * @return bool
 	 */
-	protected function has_refund_return_policy_page_content(): string {
+	protected function has_refund_return_policy_page_content(): bool {
 		$results = WC_Install::get_refunds_return_policy_page_content();
 		if ( empty( $results ) ) {
 			return false;
