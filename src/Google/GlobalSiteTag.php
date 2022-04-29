@@ -23,7 +23,13 @@ use Automattic\WooCommerce\GoogleListingsAndAds\Proxies\WC;
  */
 class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareInterface {
 
-
+  do_action(
+    'woocommerce_gla_debug_message',
+    sprintf(
+            'testing log.'
+    ),
+    __METHOD__
+);
 	use OptionsAwareTrait;
 
 	/** @var string Developer ID */
