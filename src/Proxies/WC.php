@@ -159,6 +159,10 @@ class WC {
 		return WCCore()->shipping()->get_shipping_classes();
 	}
 
+  public function get_available_payment_gateways(): array {
+		return WCCore()->get_available_payment_gateways();
+	}
+
 	/**
 	 * Get Base Currency Code.
 	 *
