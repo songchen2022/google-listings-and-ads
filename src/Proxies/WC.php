@@ -10,6 +10,7 @@ use WC_Product;
 use WC_Shipping_Zone;
 use WC_Shipping_Zones;
 use WP_Term;
+use WC_Payment_Gateways;
 use function WC as WCCore;
 
 defined( 'ABSPATH' ) || exit;
@@ -160,7 +161,7 @@ class WC {
 	}
 
   public function get_available_payment_gateways(): array {
-		return WCCore()->get_available_payment_gateways();
+		return WC_Payment_Gateways::get_available_payment_gateways();
 	}
 
 	/**
