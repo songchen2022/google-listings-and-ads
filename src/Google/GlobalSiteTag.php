@@ -30,6 +30,15 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
     ),
     __METHOD__
 );
+
+do_action(
+  'woocommerce_gla_debug_message',
+  sprintf(
+          'testing log111.'
+  ),
+  __METHOD__
+);
+
 	use OptionsAwareTrait;
 
 	/** @var string Developer ID */
