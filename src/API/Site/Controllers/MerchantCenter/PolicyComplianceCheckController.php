@@ -103,7 +103,7 @@ class PolicyComplianceCheckController extends BaseController {
 	 * @return array
 	 */
 	protected function get_allowed_countries(): array {
-		return $this->wc->get_allowed_countries();
+		return $this->wc->get_countries();
 	}
 
 	/**
