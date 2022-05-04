@@ -136,7 +136,7 @@ class PolicyComplianceCheckController extends BaseController {
 	 * @return bool
 	 */
 	protected function has_refund_return_policy_page_content(): bool {
-		if ( the_slug_exists( 'refund_returns' ) ) {
+		if ( $this->the_slug_exists( 'refund_returns' ) ) {
 			return true;
 		} else {
 			return false;
