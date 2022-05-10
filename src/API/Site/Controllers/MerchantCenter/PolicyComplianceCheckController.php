@@ -154,19 +154,18 @@ class PolicyComplianceCheckController extends BaseController {
 		return 'policy_check';
 	}
 
-  /**
-	 * Get the item schema name for the controller.
+	/**
+	 * Check if the slug exists or not.
 	 *
-	 * Used for building the API response schema.
-	 *
-	 * @return bool
+	 * @param PostName $post_name
 	 */
-  function the_slug_exists($post_name) {
-    global $wpdb;
-    if($wpdb->get_row("SELECT post_name FROM wp_posts WHERE post_name = '" . $post_name . "'", 'ARRAY_A')) {
-        return true;
-    } else {
-        return false;
-    }
-}
+	protected function the_slug_exists( $post_name ) {
+		global $wpdb;
+
+		if ( $wpdb->get_row( $wpdb->prepare( 'SELECT post_name FROM wp_posts WHERE post_name = %s', $post_name ) ) ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

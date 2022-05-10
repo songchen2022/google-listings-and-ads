@@ -109,7 +109,7 @@ class RESTServiceProvider extends AbstractServiceProvider {
 		$this->share( SettingsSyncController::class, Settings::class );
 		$this->share( DisconnectController::class );
 		$this->share( SetupCompleteController::class );
-    $this->share( PolicyComplianceCheckController::class, WC::class, GoogleHelper::class );
+		$this->share( PolicyComplianceCheckController::class, WC::class, GoogleHelper::class );
 	}
 
 	/**

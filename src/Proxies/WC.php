@@ -159,7 +159,10 @@ class WC {
 		return WCCore()->shipping()->get_shipping_classes();
 	}
 
-  public function get_available_payment_gateways(): array {
+  /**
+   * Get available payment gateways.
+   */
+	public function get_available_payment_gateways(): array {
 		return WCCore()->payment_gateways->get_available_payment_gateways();
 	}
 
