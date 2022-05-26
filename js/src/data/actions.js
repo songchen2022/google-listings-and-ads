@@ -661,7 +661,7 @@ export function* fetchAllowedCountries() {
 		} );
 
 		return {
-			type: TYPES.RECEIVE_COUNTRIES,
+			type: TYPES.RECEIVE_ALLOWED_COUNTRIES,
 			countries: response,
 		};
 	} catch ( error ) {
@@ -703,7 +703,7 @@ export function* fetchIsSsl() {
 		} );
 
 		return {
-			type: TYPES.RECEIVE_COUNTRIES,
+			type: TYPES.RECEIVE_IS_SSL,
 			countries: response,
 		};
 	} catch ( error ) {
@@ -724,7 +724,7 @@ export function* fetchPaymentGateways() {
 		} );
 
 		return {
-			type: TYPES.RECEIVE_COUNTRIES,
+			type: TYPES.RECEIVE_PAYMENT_GATEWAYS,
 			countries: response,
 		};
 	} catch ( error ) {
@@ -745,7 +745,7 @@ export function* fetchReturnRefundPolicyPageContent() {
 		} );
 
 		return {
-			type: TYPES.RECEIVE_COUNTRIES,
+			type: TYPES.RECEIVE_RETURN_REFUND_POLICY,
 			countries: response,
 		};
 	} catch ( error ) {
