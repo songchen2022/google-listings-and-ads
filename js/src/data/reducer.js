@@ -17,7 +17,7 @@ const DEFAULT_STATE = {
 			ssl: null,
 			payment_gateways: null,
 			return_refund_policy: null,
-		}
+		},
 		shipping: {
 			rates: [],
 			times: [],

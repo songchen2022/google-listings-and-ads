@@ -689,7 +689,7 @@ export function* fetchCountries() {
 		yield handleFetchError(
 			error,
 			__(
-				'There was an error loading supported country details.',
+				'There was an error loading the details of the supported countries.',
 				'google-listings-and-ads'
 			)
 		);

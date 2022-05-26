@@ -92,10 +92,6 @@ export const getCountries = ( state ) => {
 	return state.mc.countries;
 };
 
-todo:
-
-
-
 export const getTargetAudience = ( state ) => {
 	return state.mc.target_audience;
 };
@@ -110,6 +106,22 @@ export const getMCSetup = ( state ) => {
 
 export const getMCProductStatistics = ( state ) => {
 	return state.mc_product_statistics;
+};
+
+export const getAllowedCountries = ( state ) => {
+	return state.mc.policy_check.allowed_countries;
+};
+
+export const getIsSsl = ( state ) => {
+	return state.mc.policy_check.ssl;
+};
+
+export const getPaymentGateways = ( state ) => {
+	return state.mc.policy_check.payment_gateways;
+};
+
+export const getReturnRefundPolicyPageContent = ( state ) => {
+	return state.mc.policy_check.return_refund_policy;
 };
 
 // note: we use rememo createSelector here to cache the sliced issues array,
