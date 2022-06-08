@@ -74,12 +74,12 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		$conversion_action = $this->options->get( OptionsInterface::ADS_CONVERSION_ACTION );
 
 		// No snippets without conversion action info.
-		if ( ! $conversion_action ) {
-			return;
-		}
+		// if ( ! $conversion_action ) {
+		// 	return;
+		// }
 
-		$ads_conversion_id    = $conversion_action['conversion_id'];
-		$ads_conversion_label = $conversion_action['conversion_label'];
+		$ads_conversion_id    = ''; //$conversion_action['conversion_id'];
+		$ads_conversion_label = ''; //$conversion_action['conversion_label'];
 
 		add_action(
 			'wp_head',
