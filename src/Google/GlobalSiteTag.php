@@ -89,6 +89,16 @@ class GlobalSiteTag implements Service, Registerable, Conditional, OptionsAwareI
 		$ads_conversion_id    = $conversion_action['conversion_id'];
 		$ads_conversion_label = $conversion_action['conversion_label'];
 
+		do_action(
+			'woocommerce_gla_debug_message',
+			sprintf(
+				'test %s convesion????%s.',
+				$ads_conversion_id,
+				$ads_conversion_label,
+			),
+			__METHOD__
+		);
+
 		add_action(
 			'wp_head',
 			function () use ( $ads_conversion_id ) {
