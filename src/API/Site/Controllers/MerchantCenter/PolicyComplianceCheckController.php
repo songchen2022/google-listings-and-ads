@@ -76,22 +76,22 @@ class PolicyComplianceCheckController extends BaseController {
 		);
 
 		$this->register_route(
-			'mc/policy_check/ssl',
+			'mc/policy_check/store_ssl',
 			[
 				[
 					'methods'             => TransportMethods::READABLE,
-					'callback'            => $this->get_is_ssl(),
+					'callback'            => $this->get_is_store_ssl(),
 					'permission_callback' => $this->get_permission_callback(),
 				],
 			]
 		);
 
 		$this->register_route(
-			'mc/policy_check/return_refund_policy',
+			'mc/policy_check/refund_return_policy',
 			[
 				[
 					'methods'             => TransportMethods::READABLE,
-					'callback'            => $this->has_refund_return_policy_page_content(),
+					'callback'            => $this->has_refund_return_policy_page(),
 					'permission_callback' => $this->get_permission_callback(),
 				],
 			]
@@ -104,7 +104,7 @@ class PolicyComplianceCheckController extends BaseController {
 	 * @return array
 	 */
 	protected function get_allowed_countries(): array {
-		return $this->wc->get_countries();
+		return $this->wc->get_allowed_countries();
 	}
 
 	/**
@@ -126,16 +126,16 @@ class PolicyComplianceCheckController extends BaseController {
 	 *
 	 * @return bool
 	 */
-	protected function get_is_ssl(): bool {
-		return is_ssl();
+	protected function get_is_store_ssl(): bool {
+		return is_store_ssl();
 	}
 
 	/**
-	 * Check if the store has refund return policy page content for the controller.
+	 * Check if the store has refund return policy page for the controller.
 	 *
 	 * @return bool
 	 */
-	protected function has_refund_return_policy_page_content(): bool {
+	protected function has_refund_return_policy_page(): bool {
 		if ( $this->the_slug_exists( 'refund_returns' ) ) {
 			return true;
 		} else {

@@ -51,6 +51,7 @@ class WC {
 		$this->wc_countries = $countries;
 		$this->base_country = $countries->get_base_country() ?? 'US';
 		$this->countries    = $countries->get_countries() ?? [];
+		$this->allowed_countries    = $countries->get_allowed_countries() ?? [];
 		$this->continents   = $countries->get_continents() ?? [];
 	}
 
@@ -61,6 +62,15 @@ class WC {
 	 */
 	public function get_countries(): array {
 		return $this->countries;
+	}
+
+	/**
+	 * Get WooCommerce allowed countries.
+	 *
+	 * @return array
+	 */
+	public function get_allowed_countries(): array {
+		return $this->allowed_countries;
 	}
 
 	/**
