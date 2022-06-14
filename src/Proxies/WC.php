@@ -47,12 +47,12 @@ class WC {
 	 * @param WC_Countries|null $countries
 	 */
 	public function __construct( ?WC_Countries $countries = null ) {
-		$countries          = $countries ?? new WC_Countries();
-		$this->wc_countries = $countries;
-		$this->base_country = $countries->get_base_country() ?? 'US';
-		$this->countries    = $countries->get_countries() ?? [];
-		$this->allowed_countries    = $countries->get_allowed_countries() ?? [];
-		$this->continents   = $countries->get_continents() ?? [];
+		$countries               = $countries ?? new WC_Countries();
+		$this->wc_countries      = $countries;
+		$this->base_country      = $countries->get_base_country() ?? 'US';
+		$this->countries         = $countries->get_countries() ?? [];
+		$this->allowed_countries = $countries->get_allowed_countries() ?? [];
+		$this->continents        = $countries->get_continents() ?? [];
 	}
 
 	/**
