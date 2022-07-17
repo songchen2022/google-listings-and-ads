@@ -14,6 +14,7 @@ import AppDocumentationLink from '.~/components/app-documentation-link';
 import Section from '.~/wcdl/section';
 import VerticalGapLayout from '.~/components/vertical-gap-layout';
 import './index.scss';
+import usePolicyCheck from '.~/hooks/usePolicyCheck';
 
 /*
  * @fires gla_documentation_link_click with `{ context: 'setup-mc-checklist', link_id: 'checklist-requirements', href: 'https://support.google.com/merchants/answer/6363310' }`
@@ -22,6 +23,7 @@ const PreLaunchChecklist = ( props ) => {
 	const { formProps } = props;
 	const { getInputProps } = formProps;
 
+	const { data } = usePolicyCheck();
 	return (
 		<div className="gla-pre-launch-checklist">
 			<Section
@@ -84,6 +86,7 @@ const PreLaunchChecklist = ( props ) => {
 											</HelpPopover>
 										</span>
 									}
+									checked={ data.policy_check.is_store_ssl }
 									{ ...getInputProps( 'website_live' ) }
 								/>
 							</div>
