@@ -89,15 +89,13 @@ export default function StoreRequirements() {
 				) }
 			/>
 			<Form
-				initialValues={
-					{
-						// website_live: true,
-						// checkout_process_secure: true,
-						// payment_methods_visible: true,
-						// refund_tos_visible: true,
-						// contact_info_visible: true,
-					}
-				}
+				initialValues={ {
+					website_live: settings.website_live,
+					checkout_process_secure: settings.checkout_process_secure,
+					payment_methods_visible: settings.payment_methods_visible,
+					refund_tos_visible: settings.refund_tos_visible,
+					contact_info_visible: settings.contact_info_visible,
+				} }
 				validate={ checkErrors }
 				onChange={ handleChangeCallback }
 				onSubmit={ handleSubmitCallback }

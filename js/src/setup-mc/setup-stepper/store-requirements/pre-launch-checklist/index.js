@@ -4,23 +4,43 @@
 import { __ } from '@wordpress/i18n';
 import { createInterpolateElement } from '@wordpress/element';
 import { CheckboxControl } from '@wordpress/components';
+import { Button } from '@wordpress/components';
 
 /**
  * Internal dependencies
  */
-
+import { useAppDispatch } from '.~/data';
+import AppSpinner from '.~/components/app-spinner';
 import HelpPopover from '.~/components/help-popover';
 import AppDocumentationLink from '.~/components/app-documentation-link';
 import Section from '.~/wcdl/section';
 import VerticalGapLayout from '.~/components/vertical-gap-layout';
 import './index.scss';
-
+import usePolicyCheck from '.~/hooks/usePolicyCheck';
 /*
  * @fires gla_documentation_link_click with `{ context: 'setup-mc-checklist', link_id: 'checklist-requirements', href: 'https://support.google.com/merchants/answer/6363310' }`
  */
 const PreLaunchChecklist = ( props ) => {
+	const { saveSettings } = useAppDispatch();
 	const { formProps } = props;
-	const { getInputProps } = formProps;
+	const { getInputProps, setValue, values } = formProps;
+	const { data } = usePolicyCheck();
+
+	if ( ! data ) {
+		return <AppSpinner />;
+	}
+
+	if ( data.store_ssl != values[ 'checkout_process_secure' ] ) {
+		setValue( 'checkout_process_secure', data.store_ssl );
+	}
+
+	if ( data.refund_returns != values[ 'refund_tos_visible' ] ) {
+		setValue( 'refund_tos_visible', data.refund_returns );
+	}
+
+	if ( data.payment_gateways != values[ 'payment_methods_visible' ] ) {
+		setValue( 'payment_methods_visible', data.payment_gateways );
+	}
 
 	return (
 		<div className="gla-pre-launch-checklist">
@@ -61,7 +81,7 @@ const PreLaunchChecklist = ( props ) => {
 										<span className="gla-pre-launch-checklist__checkbox_popover">
 											<span className="checkbox-label">
 												{ __(
-													'My store website is live.',
+													'My store is live and accessible to all users.',
 													'google-listings-and-ads'
 												) }
 											</span>
@@ -87,12 +107,13 @@ const PreLaunchChecklist = ( props ) => {
 									{ ...getInputProps( 'website_live' ) }
 								/>
 							</div>
+
 							<CheckboxControl
 								label={
 									<span className="gla-pre-launch-checklist__checkbox_popover">
 										<span className="checkbox-label">
 											{ __(
-												'I have a complete and secure checkout process.',
+												'I have a complete checkout process.',
 												'google-listings-and-ads'
 											) }
 										</span>
@@ -127,47 +148,68 @@ const PreLaunchChecklist = ( props ) => {
 									'checkout_process_secure'
 								) }
 							/>
+
 							<CheckboxControl
 								label={
 									<span className="gla-pre-launch-checklist__checkbox_popover">
 										<span className="checkbox-label">
 											{ __(
-												'My payment methods are visible on my website.',
+												'Confirm you have a secure checkout process.',
 												'google-listings-and-ads'
 											) }
 										</span>
-										<HelpPopover id="payment_methods_visible">
-											{ createInterpolateElement(
-												__(
-													'Ensure customers have at least one valid payment method, such as credit card, direct bank transfer, or cash on delivery. <link>Read more</link>',
+										<HelpPopover id="checkout_process_secure">
+											<p>
+												{ __(
+													'Ensure customers are able to successfully add items to the cart and fully complete the checkout process.',
 													'google-listings-and-ads'
-												),
-												{
-													link: (
-														<AppDocumentationLink
-															context="setup-mc-checklist"
-															linkId="check-payment-methods"
-															href="https://woocommerce.com/document/google-listings-and-ads/compliance-policy/#payment-methods"
-														/>
-													),
-												}
-											) }
+												) }
+											</p>
 										</HelpPopover>
 									</span>
 								}
 								{ ...getInputProps(
-									'payment_methods_visible'
+									'checkout_process_secure'
 								) }
 							/>
+							<p>
+								{ createInterpolateElement(
+									__(
+										'Payment and transaction processing, as well as collection of any sensitive and financial personal information from the user, must be conducted over a secure processing server (SSL-protected, with a valid SSL certificate - https://). <link>Read more</link>',
+										'google-listings-and-ads'
+									),
+									{
+										link: (
+											<AppDocumentationLink
+												context="setup-mc-checklist"
+												linkId="check-checkout-process"
+												href="https://woocommerce.com/document/google-listings-and-ads/compliance-policy/#complete-checkout"
+											/>
+										),
+									}
+								) }
+							</p>
+							<Button
+								disabled={ values[ 'refund_tos_visible' ] }
+								onClick={ () => {
+									setValue( 'refund_tos_visible', true );
+									saveSettings( values );
+								} }
+							>
+								{ ' ' }
+								{ __( 'Confirm', 'google-listings-and-ads' ) }
+							</Button>
+
 							<CheckboxControl
 								label={
 									<span className="gla-pre-launch-checklist__checkbox_popover">
 										<span className="checkbox-label">
 											{ __(
-												'My refund policy and terms of service are visible on my online store.',
+												'Confirm a refund policy and terms of service are visible on your online store.',
 												'google-listings-and-ads'
 											) }
 										</span>
+
 										<HelpPopover id="refund_tos_visible">
 											{ createInterpolateElement(
 												__(
@@ -185,16 +227,33 @@ const PreLaunchChecklist = ( props ) => {
 												}
 											) }
 										</HelpPopover>
+
+										<span className="checkbox-label">
+											{ __(
+												'Confirm a refund policy and terms of service are visible on your online store.',
+												'google-listings-and-ads'
+											) }
+										</span>
 									</span>
 								}
 								{ ...getInputProps( 'refund_tos_visible' ) }
 							/>
+							<Button
+								disabled={ values[ 'refund_tos_visible' ] }
+								onClick={ () => {
+									setValue( 'refund_tos_visible', true );
+									saveSettings( values );
+								} }
+							>
+								{ ' ' }
+								{ __( 'Confirm', 'google-listings-and-ads' ) }
+							</Button>
 							<CheckboxControl
 								label={
 									<span className="gla-pre-launch-checklist__checkbox_popover">
 										<span className="checkbox-label">
 											{ __(
-												'My store’s phone number, email and/or address are visible on my website.',
+												'Confirm your store’s phone number, email and/or address are visible on your website.',
 												'google-listings-and-ads'
 											) }
 										</span>
@@ -219,6 +278,16 @@ const PreLaunchChecklist = ( props ) => {
 								}
 								{ ...getInputProps( 'contact_info_visible' ) }
 							/>
+							<Button
+								disabled={ values[ 'refund_tos_visible' ] }
+								onClick={ () => {
+									setValue( 'refund_tos_visible', true );
+									saveSettings( values );
+								} }
+							>
+								{ ' ' }
+								{ __( 'Confirm', 'google-listings-and-ads' ) }
+							</Button>
 						</VerticalGapLayout>
 					</Section.Card.Body>
 				</Section.Card>
