@@ -16,6 +16,8 @@ export const trackEvent = ( eventName, eventParams ) => {
 	if ( typeof gtag !== 'function' ) {
 		throw new Error( 'Function gtag not implemented.' );
 	}
+	const country = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
 
 	window.gtag( 'event', eventName, {
 		send_to: SEND_TO_GROUP,
