@@ -6,6 +6,8 @@ import { createInterpolateElement } from '@wordpress/element';
 import { CheckboxControl } from '@wordpress/components';
 import { Button } from '@wordpress/components';
 
+import useGetAllowedCountries from '.~/hooks/useGetAllowedCountries';
+
 /**
  * Internal dependencies
  */
@@ -15,6 +17,7 @@ import HelpPopover from '.~/components/help-popover';
 import AppDocumentationLink from '.~/components/app-documentation-link';
 import Section from '.~/wcdl/section';
 import VerticalGapLayout from '.~/components/vertical-gap-layout';
+import useAllowedCountries from '.~/hooks/useAllowedCountries';
 import './index.scss';
 import usePolicyCheck from '.~/hooks/usePolicyCheck';
 /*
@@ -23,6 +26,7 @@ import usePolicyCheck from '.~/hooks/usePolicyCheck';
 const PreLaunchChecklist = ( props ) => {
 	const { saveSettings } = useAppDispatch();
 	const { formProps } = props;
+
 	const { getInputProps, setValue, values } = formProps;
 	const { data } = usePolicyCheck();
 
@@ -41,6 +45,10 @@ const PreLaunchChecklist = ( props ) => {
 	if ( data.payment_gateways != values[ 'payment_methods_visible' ] ) {
 		setValue( 'payment_methods_visible', data.payment_gateways );
 	}
+
+	// const { getInputProps } = formProps;
+	// const { allowedCountries } = useAllowedCountries();
+
 
 	return (
 		<div className="gla-pre-launch-checklist">
@@ -278,6 +286,7 @@ const PreLaunchChecklist = ( props ) => {
 								}
 								{ ...getInputProps( 'contact_info_visible' ) }
 							/>
+
 							<Button
 								disabled={ values[ 'refund_tos_visible' ] }
 								onClick={ () => {
@@ -288,6 +297,27 @@ const PreLaunchChecklist = ( props ) => {
 								{ ' ' }
 								{ __( 'Confirm', 'google-listings-and-ads' ) }
 							</Button>
+
+							{/* <CheckboxControl
+								label={
+									<span className="gla-pre-launch-checklist__checkbox_popover">
+										<span className="checkbox-label">
+											{ __(
+												'My store’s phone number, email and/or address are visible on my website.',
+												'google-listings-and-ads'
+											) }
+										</span>
+										<HelpPopover id="contact_info_visible">
+											{ __(
+												'Your website must display sufficient and accurate contact information to your customers, including a telephone number and/or email.',
+												'google-listings-and-ads'
+											) }
+										</HelpPopover>
+									</span>
+								}
+								checked={ allowedCountries }
+								{ ...getInputProps( 'contact_info_visible' ) }
+							/> */}
 						</VerticalGapLayout>
 					</Section.Card.Body>
 				</Section.Card>
