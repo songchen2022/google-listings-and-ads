@@ -31,8 +31,20 @@ class PolicyComplianceCheckControllerTest extends RESTControllerUnitTest {
 
 	public function test_policy_check() {
 		$this->policy_compliance_check->expects( $this->once() )
-		                         ->method( 'get_allowed_countries' )
-		                         ->willReturn(['US', 'UK']);
+		                         ->method( 'is_accessible' )
+		                         ->willReturn(true);
+
+		$this->policy_compliance_check->expects( $this->once() )
+		                         ->method( 'has_restriction' )
+		                         ->willReturn(false);
+
+		$this->policy_compliance_check->expects( $this->once() )
+		                         ->method( 'has_page_not_found_error' )
+		                         ->willReturn(false);
+
+		$this->policy_compliance_check->expects( $this->once() )
+		                         ->method( 'has_redirects' )
+		                         ->willReturn(false);
 
 		$this->policy_compliance_check->expects( $this->once() )
 		                         ->method( 'get_is_store_ssl' )
@@ -51,7 +63,10 @@ class PolicyComplianceCheckControllerTest extends RESTControllerUnitTest {
 		$this->assertEquals( 200, $response->get_status() );
 		$this->assertEquals(
 		[
-			'allowed_countries'    	=> ['US', 'UK'],
+			'allowed_countries'    	=> true,
+			'robots_restriction'    => false,
+			'page_not_found_error'            => false,
+			'page_redirects'        => false,
 			'store_ssl'         	=> true,
 			'payment_gateways'  	=> true,
 			'refund_returns' 	=> true,
