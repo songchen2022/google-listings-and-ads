@@ -42,8 +42,13 @@ const PreLaunchChecklist = ( props ) => {
 		if ( ! data ) {
 			return <AppSpinner />;
 		}
-		if ( data.is_accessible != values[ 'website_live' ] ) {
-			setValue( 'website_live', data.is_accessible );
+		var website_live =
+			data.allowed_countries &&
+			! data.robots_restriction &&
+			! data.page_not_found_error &&
+			! data.page_redirects;
+		if ( website_live != values[ 'website_live' ] ) {
+			setValue( 'website_live', website_live );
 		}
 
 		if ( data.store_ssl != values[ 'checkout_process_secure' ] ) {
@@ -56,42 +61,6 @@ const PreLaunchChecklist = ( props ) => {
 
 		if ( data.payment_gateways != values[ 'payment_methods_visible' ] ) {
 			setValue( 'payment_methods_visible', data.payment_gateways );
-		}
-
-		// const robotsParser = require( 'robots-txt-parser' );
-		// const robots = robotsParser( {
-		// 	userAgent: 'Googlebot', // The default user agent to use when looking for allow/disallow rules, if this agent isn't listed in the active robots.txt, we use *.
-		// 	allowOnNeutral: false, // The value to use when the robots.txt rule's for allow and disallow are balanced on whether a link can be crawled.
-		// } );
-
-		// if ( values[ 'website_live' ] ) {
-		// 	setValue( 'website_live', false );
-		// 	robots
-		// 		.useRobotsFor( window.location.hostname + '/robots.txt' )
-		// 		.then( () => {
-		// 			robots.canCrawl( window.location.hostname, ( value ) => {
-		// 				setValue( 'website_live', true );
-		// 			} );
-		// 		} );
-		// }
-
-		redirected = false;
-
-		function reqListener() {
-			if ( this.status < 400 && this.status >= 300 ) {
-				redirected = true;
-			}
-		}
-
-		var XMLHttpRequest = require( 'xmlhttprequest' ).XMLHttpRequest;
-
-		var oReq = new XMLHttpRequest();
-		oReq.addEventListener( 'load', reqListener );
-		oReq.open( 'GET', window.location.hostname, false );
-		oReq.send();
-
-		if ( redirected ) {
-			setValue( 'website_live', false );
 		}
 
 		setValue( 'checked', true );
