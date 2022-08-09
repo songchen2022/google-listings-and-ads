@@ -60,7 +60,7 @@ class PolicyComplianceCheck implements Service {
 		$all_allowed_countries = $this->wc->get_allowed_countries();
 		$target_countries      = $this->target_audience->get_target_countries();
 
-		foreach ( $target_countries as $country => $country ) {
+		foreach ( $target_countries as $country ) {
 			if ( ! in_array( $country, $all_allowed_countries ) ) {
 				return false;
 			}

@@ -46,7 +46,7 @@ class PolicyComplianceCheckTest extends UnitTest {
 					   ->willReturn( ["AU" => "Australia", "AT" => "Austria", "CA" => "Canada", "US" => "United States"] );
 		$this->target_audience->expects( $this->any() )
 					   ->method( 'get_target_countries' )
-					   ->willReturn( ["AU" => "Australia", "US" => "United States"] );
+					   ->willReturn( ["AU" , "US" ] );
 
 		$this->assertEquals($this->policy_compliance_check->is_accessible(), true);
 	}
