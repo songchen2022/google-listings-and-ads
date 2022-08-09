@@ -69,6 +69,14 @@ class PolicyComplianceCheckTest extends UnitTest {
 					   ->method( 'get_available_payment_gateways' )
 					   ->willReturn( ["PayPal", "Stripe"] );
 
+		$this->assertEquals($this->policy_compliance_check->has_payment_gateways(), true);
+	}
+
+	public function test_empty_payment_gateways() {
+		$this->wc->expects( $this->any() )
+					   ->method( 'get_available_payment_gateways' )
+					   ->willReturn( []);
+
 		$this->assertEquals($this->policy_compliance_check->has_payment_gateways(), false);
 	}
 }
