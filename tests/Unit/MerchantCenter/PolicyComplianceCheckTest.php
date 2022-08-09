@@ -75,7 +75,7 @@ class PolicyComplianceCheckTest extends UnitTest {
 	public function test_empty_payment_gateways() {
 		$this->wc->expects( $this->any() )
 					   ->method( 'get_available_payment_gateways' )
-					   ->willReturn( []);
+					   ->willReturn( [] );
 
 		$this->assertEquals($this->policy_compliance_check->has_payment_gateways(), false);
 	}
