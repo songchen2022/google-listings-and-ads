@@ -6,6 +6,7 @@ namespace Automattic\WooCommerce\GoogleListingsAndAds\MerchantCenter;
 use Automattic\WooCommerce\GoogleListingsAndAds\Infrastructure\Service;
 use Automattic\WooCommerce\GoogleListingsAndAds\Proxies\WC;
 use Automattic\WooCommerce\GoogleListingsAndAds\Google\GoogleHelper;
+use Automattic\WooCommerce\GoogleListingsAndAds\MerchantCenter\TargetAudience;
 
 
 defined( 'ABSPATH' ) || exit;
@@ -31,14 +32,21 @@ class PolicyComplianceCheck implements Service {
 	protected $google_helper;
 
 	/**
+	 * @var TargetAudience
+	 */
+	protected $target_audience;
+
+	/**
 	 * BaseController constructor.
 	 *
 	 * @param WC           $wc
 	 * @param GoogleHelper $google_helper
+	 * @param TargetAudience     $target_audience
 	 */
-	public function __construct( WC $wc, GoogleHelper $google_helper ) {
-		$this->wc            = $wc;
-		$this->google_helper = $google_helper;
+	public function __construct( WC $wc, GoogleHelper $google_helper, TargetAudience $target_audience ) {
+		$this->wc              = $wc;
+		$this->google_helper   = $google_helper;
+		$this->target_audience = $target_audience;
 	}
 
 	/**
@@ -48,9 +56,9 @@ class PolicyComplianceCheck implements Service {
 	 */
 	public function is_accessible(): bool {
 		$all_countries = $this->wc->get_countries();
-		$mc_countries  = $this->google_helper->get_mc_supported_countries();
+		$target_countries    = $this->target_audience->get_target_countries();
 
-		foreach ( $mc_countries as $country ) {
+		foreach ( $target_countries as $country ) {
 			if ( ! array_key_exists( $country, $all_countries ) ) {
 				return false;
 			}
@@ -73,7 +81,7 @@ class PolicyComplianceCheck implements Service {
 		if ( ! empty( $ids ) ) {
 			$url     = get_permalink( $ids[0] );
 			$headers = get_headers( $url );
-			if ( ! empty( $headesr ) && $headers[0] !== 'HTTP/1.1 200 OK' ) {
+			if ( ! empty( $headers ) && $headers[0] !== 'HTTP/1.1 200 OK' ) {
 				return true;
 			}
 		}
