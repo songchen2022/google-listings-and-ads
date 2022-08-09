@@ -3,11 +3,12 @@ declare( strict_types=1 );
 
 namespace Automattic\WooCommerce\GoogleListingsAndAds\Tests\Unit\MerchantCenter;
 
-use Automattic\WooCommerce\GoogleListingsAndAds\API\Google\Merchant;
-use Automattic\WooCommerce\GoogleListingsAndAds\API\Google\Settings;
-use Automattic\WooCommerce\GoogleListingsAndAds\MerchantCenter\ContactInformation;
-use Automattic\WooCommerce\GoogleListingsAndAds\Tests\Framework\ContainerAwareUnitTest;
-use Automattic\WooCommerce\GoogleListingsAndAds\Tests\Tools\HelperTrait\MerchantTrait;
+use Automattic\WooCommerce\GoogleListingsAndAds\Infrastructure\Service;
+use Automattic\WooCommerce\GoogleListingsAndAds\Proxies\WC;
+use Automattic\WooCommerce\GoogleListingsAndAds\Google\GoogleHelper;
+use Automattic\WooCommerce\GoogleListingsAndAds\PluginHelper;
+use Automattic\WooCommerce\GoogleListingsAndAds\MerchantCenter\TargetAudience;
+
 use PHPUnit\Framework\MockObject\MockObject;
 
 defined( 'ABSPATH' ) || exit;
@@ -30,92 +31,44 @@ class PolicyComplianceCheckTest extends UnitTest {
 	 */
 	public function setUp(): void {
 		parent::setUp();
-		$this->merchant            = $this->createMock( Merchant::class );
-		$this->google_settings     = $this->createMock( Settings::class );
-		$this->contact_information = new ContactInformation( $this->merchant, $this->google_settings );
+		$this->wc            = $this->createMock( WC::class );
+		$this->google_helper     = $this->createMock( GoogleHelper::class );
+		$this->target_audience     = $this->createMock( TargetAudience::class );
+
+		$this->policy_compliance_check = new PolicyComplianceCheck( $this->wc, $this->google_helper, $this->target_audience );
 	}
 
-	public function test_get_empty_contact_information() {
-		$this->merchant->expects( $this->any() )
-					   ->method( 'get_account' )
-					   ->willReturn( $this->get_empty_account() );
 
-		$this->assertNull( $this->contact_information->get_contact_information() );
+
+	public function test_website_accessible() {
+		$this->wc->expects( $this->any() )
+					   ->method( 'get_allowed_countries' )
+					   ->willReturn( ["AU", "AT", "CA", "US"] );
+		$this->target_audience->expects( $this->any() )
+					   ->method( 'get_target_countries' )
+					   ->willReturn( ["AU", "US"] );
+
+		$this->assertEquals($this->policy_compliance_check->is_accessible(), true);
 	}
 
-	public function test_get_valid_contact_information() {
-		$this->merchant->expects( $this->any() )
-					   ->method( 'get_account' )
-					   ->willReturn( $this->get_valid_account() );
 
-		$contact_information = $this->contact_information->get_contact_information();
+	public function test_website_not_accessible() {
+		$this->wc->expects( $this->any() )
+					   ->method( 'get_allowed_countries' )
+					   ->willReturn( ["AU", "AT", "CA", "US"] );
+		$this->target_audience->expects( $this->any() )
+					   ->method( 'get_target_countries' )
+					   ->willReturn( ["FR", "US"] );
 
-		$this->assertEquals(
-			$this->valid_account_phone_number,
-			$contact_information->getPhoneNumber()
-		);
-
-		$this->assertEquals(
-			$this->get_sample_address()->getPostalCode(),
-			$contact_information->getAddress()->getPostalCode()
-		);
-		$this->assertEquals(
-			$this->get_sample_address()->getStreetAddress(),
-			$contact_information->getAddress()->getStreetAddress()
-		);
-		$this->assertEquals(
-			$this->get_sample_address()->getLocality(),
-			$contact_information->getAddress()->getLocality()
-		);
-		$this->assertEquals(
-			$this->get_sample_address()->getRegion(),
-			$contact_information->getAddress()->getRegion()
-		);
-		$this->assertEquals(
-			$this->get_sample_address()->getCountry(),
-			$contact_information->getAddress()->getCountry()
-		);
+		$this->assertEquals($this->policy_compliance_check->is_accessible(), false);
 	}
 
-	public function test_update_address() {
-		$this->merchant->expects( $this->any() )
-					   ->method( 'get_account' )
-					   ->willReturn( $this->get_valid_account() );
 
-		$this->google_settings->expects( $this->any() )
-							  ->method( 'get_store_address' )
-							  ->willReturn( $this->get_sample_address() );
+	public function test_payment_gateways() {
+		$this->wc->expects( $this->any() )
+					   ->method( 'get_available_payment_gateways' )
+					   ->willReturn( ["PayPal", "Stripe"] );
 
-		$results = $this->contact_information->update_address_based_on_store_settings();
-
-		$this->assertEquals(
-			$this->get_sample_address()->getPostalCode(),
-			$results->getAddress()->getPostalCode()
-		);
-		$this->assertEquals(
-			$this->get_sample_address()->getStreetAddress(),
-			$results->getAddress()->getStreetAddress()
-		);
-		$this->assertEquals(
-			$this->get_sample_address()->getLocality(),
-			$results->getAddress()->getLocality()
-		);
-		$this->assertEquals(
-			$this->get_sample_address()->getRegion(),
-			$results->getAddress()->getRegion()
-		);
-		$this->assertEquals(
-			$this->get_sample_address()->getCountry(),
-			$results->getAddress()->getCountry()
-		);
-	}
-
-	public function test_get_account_exception() {
-		$this->merchant->expects( $this->any() )
-					   ->method( 'get_account' )
-					   ->willThrowException( $this->get_account_exception() );
-
-		$this->expectExceptionObject( $this->get_account_exception() );
-		$this->contact_information->get_contact_information();
+		$this->assertEquals($this->policy_compliance_check->has_payment_gateways(), false);
 	}
 }
