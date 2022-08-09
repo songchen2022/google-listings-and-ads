@@ -25,8 +25,6 @@ defined( 'ABSPATH' ) || exit;
  */
 class PolicyComplianceCheckTest extends UnitTest {
 
-	use MerchantTrait;
-
 	/**
 	 * Runs before each test is executed.
 	 */
