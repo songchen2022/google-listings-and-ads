@@ -8,6 +8,7 @@ use Automattic\WooCommerce\GoogleListingsAndAds\Proxies\WC;
 use Automattic\WooCommerce\GoogleListingsAndAds\Google\GoogleHelper;
 use Automattic\WooCommerce\GoogleListingsAndAds\PluginHelper;
 use Automattic\WooCommerce\GoogleListingsAndAds\MerchantCenter\TargetAudience;
+use Automattic\WooCommerce\GoogleListingsAndAds\Tests\Framework\UnitTest;
 
 use PHPUnit\Framework\MockObject\MockObject;
 
