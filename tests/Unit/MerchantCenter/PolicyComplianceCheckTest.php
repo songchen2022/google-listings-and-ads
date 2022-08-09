@@ -52,16 +52,16 @@ class PolicyComplianceCheckTest extends UnitTest {
 	}
 
 
-	public function test_website_not_accessible() {
-		$this->wc->expects( $this->any() )
-					   ->method( 'get_allowed_countries' )
-					   ->willReturn( ["AU" => "Australia", "AT" => "Austria", "CA" => "Canada", "US" => "United States"] );
-		$this->target_audience->expects( $this->any() )
-					   ->method( 'get_target_countries' )
-					   ->willReturn( ["FR" => "France", "US" => "United States"] );
+	// public function test_website_not_accessible() {
+	// 	$this->wc->expects( $this->any() )
+	// 				   ->method( 'get_allowed_countries' )
+	// 				   ->willReturn( ["AU" => "Australia", "AT" => "Austria", "CA" => "Canada", "US" => "United States"] );
+	// 	$this->target_audience->expects( $this->any() )
+	// 				   ->method( 'get_target_countries' )
+	// 				   ->willReturn( ["FR" => "France", "US" => "United States"] );
 
-		$this->assertEquals($this->policy_compliance_check->is_accessible(), false);
-	}
+	// 	$this->assertEquals($this->policy_compliance_check->is_accessible(), false);
+	// }
 
 
 	// public function test_payment_gateways() {
