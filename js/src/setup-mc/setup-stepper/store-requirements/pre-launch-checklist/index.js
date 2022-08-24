@@ -72,11 +72,11 @@ const PreLaunchChecklist = ( props ) => {
 					<Section.Card.Body>
 						<VerticalGapLayout size="large">
 							{ ! values.website_live && (
-								<div id="checkbox">
+								<div className="gla-pre-launch-checklist__checkbox">
 									<CheckboxControl
 										{ ...getInputProps( 'website_live' ) }
 									></CheckboxControl>
-									<div id="panel">
+									<div className="panel">
 										<Panel>
 											<PanelBody
 												title={ __(
@@ -87,7 +87,7 @@ const PreLaunchChecklist = ( props ) => {
 												onToggle={ getPanelToggleHandler(
 													'website_live',
 													'pre-launch-checklist',
-													'setup-mc-accounts'
+													'onboarding-policy-check'
 												) }
 											>
 												<PanelRow>
@@ -144,13 +144,13 @@ const PreLaunchChecklist = ( props ) => {
 								/>
 							) }
 							{ ! values.payment_methods_visible && (
-								<div id="checkbox">
+								<div className="gla-pre-launch-checklist__checkbox">
 									<CheckboxControl
 										{ ...getInputProps(
 											'payment_methods_visible'
 										) }
 									></CheckboxControl>
-									<div id="panel">
+									<div className="panel">
 										<Panel>
 											<PanelBody
 												title={ __(
@@ -161,7 +161,7 @@ const PreLaunchChecklist = ( props ) => {
 												onToggle={ getPanelToggleHandler(
 													'payment_methods_visible',
 													'pre-launch-checklist',
-													'setup-mc-accounts'
+													'onboarding-policy-check'
 												) }
 											>
 												<PanelRow>
@@ -221,13 +221,13 @@ const PreLaunchChecklist = ( props ) => {
 								/>
 							) }
 							{ ! values.checkout_process_secure && (
-								<div id="checkbox">
+								<div className="gla-pre-launch-checklist__checkbox">
 									<CheckboxControl
 										{ ...getInputProps(
 											'checkout_process_secure'
 										) }
 									></CheckboxControl>
-									<div id="panel">
+									<div className="panel">
 										<Panel>
 											<PanelBody
 												title={ __(
@@ -238,7 +238,7 @@ const PreLaunchChecklist = ( props ) => {
 												onToggle={ getPanelToggleHandler(
 													'checkout_process_secure',
 													'pre-launch-checklist',
-													'setup-mc-accounts'
+													'onboarding-policy-check'
 												) }
 											>
 												<PanelRow>
@@ -304,137 +304,129 @@ const PreLaunchChecklist = ( props ) => {
 								/>
 							) }
 
-							{
-								! values.refund_tos_visible && (
-									<div id="checkbox">
-										<CheckboxControl
-											{ ...getInputProps(
-												'refund_tos_visible'
-											) }
-										></CheckboxControl>
-										<div id="panel">
-											<Panel>
-												<PanelBody
-													title={ __(
-														'Confirm a refund policy and terms of service are visible on your online store.',
-														'google-listings-and-ads'
-													) }
-													initialOpen={ true }
-													onToggle={ getPanelToggleHandler(
-														'refund_tos_visible',
-														'pre-launch-checklist',
-														'setup-mc-accounts'
-													) }
-												>
-													<PanelRow>
-														{ __(
-															"Show a clear return and refund policy on your website. Incluse return process, refund process, and customer requirements (return window, product condition and reason for return). If you don't accept returns or refunds, clearly start that on your website. ",
-															'google-listings-and-ads'
-														) }
-													</PanelRow>
-													<p>
-														<AppDocumentationLink
-															context="setup-mc-checklist"
-															linkId="check-refund-tos-visible"
-															type="external"
-															href="https://woocommerce.com/document/google-listings-and-ads/compliance-policy/#refund-and-terms"
-														>
-															{ __(
-																"Learn more about Google's refund policy requirements",
-																'google-listings-and-ads'
-															) }
-														</AppDocumentationLink>
-													</p>
-													<Button
-														isPrimary
-														onClick={ () => {
-															setValue(
-																'refund_tos_visible',
-																true
-															);
-														} }
-													>
-														{ __(
-															'Confirm',
-															'google-listings-and-ads'
-														) }
-													</Button>
-												</PanelBody>
-											</Panel>
-										</div>
-									</div>
-								);
-							}
-
-							{
-								values.refund_tos_visible && (
+							{ ! values.refund_tos_visible && (
+								<div className="gla-pre-launch-checklist__checkbox">
 									<CheckboxControl
-										label={
-											<span className="gla-pre-launch-checklist__checkbox_popover">
-												<span className="checkbox-label">
-													{ __(
-														'Confirm a refund policy and terms of service are visible on your online store.',
-														'google-listings-and-ads'
-													) }
-												</span>
-											</span>
-										}
 										{ ...getInputProps(
 											'refund_tos_visible'
 										) }
-									/>
-								);
-							}
-
-							{
-								! values.contact_info_visible && (
-									<div id="checkbox">
-										<CheckboxControl
-											{ ...getInputProps(
-												'contact_info_visible'
-											) }
-										></CheckboxControl>
-										<div id="panel">
-											<Panel>
-												<PanelBody
-													title={ __(
-														"Confirm your store's phone number, email and/or address are visible on your website",
+									></CheckboxControl>
+									<div className="panel">
+										<Panel>
+											<PanelBody
+												title={ __(
+													'Confirm a refund policy and terms of service are visible on your online store.',
+													'google-listings-and-ads'
+												) }
+												initialOpen={ true }
+												onToggle={ getPanelToggleHandler(
+													'refund_tos_visible',
+													'pre-launch-checklist',
+													'onboarding-policy-check'
+												) }
+											>
+												<PanelRow>
+													{ __(
+														"Show a clear return and refund policy on your website. Incluse return process, refund process, and customer requirements (return window, product condition and reason for return). If you don't accept returns or refunds, clearly start that on your website. ",
 														'google-listings-and-ads'
 													) }
-													initialOpen={ true }
-													onToggle={ getPanelToggleHandler(
-														'contact_info_visible',
-														'pre-launch-checklist',
-														'setup-mc-accounts'
-													) }
-												>
-													<PanelRow>
-														{ __(
-															'Allow your customers to contact you for product inquiries by including contact information on your website (i,e, contact us form, business profile link, social media, email or phone number.',
-															'google-listings-and-ads'
-														) }
-													</PanelRow>
-													<p />
-													<Button
-														isPrimary
-														onClick={ () => {
-															setValue(
-																'contact_info_visible',
-																true
-															);
-														} }
+												</PanelRow>
+												<p>
+													<AppDocumentationLink
+														context="setup-mc-checklist"
+														linkId="check-refund-tos-visible"
+														type="external"
+														href="https://woocommerce.com/document/google-listings-and-ads/compliance-policy/#refund-and-terms"
 													>
 														{ __(
-															'Confirm',
+															"Learn more about Google's refund policy requirements",
 															'google-listings-and-ads'
 														) }
-													</Button>
-												</PanelBody>
-											</Panel>
-										</div>
+													</AppDocumentationLink>
+												</p>
+												<Button
+													isPrimary
+													onClick={ () => {
+														setValue(
+															'refund_tos_visible',
+															true
+														);
+													} }
+												>
+													{ __(
+														'Confirm',
+														'google-listings-and-ads'
+													) }
+												</Button>
+											</PanelBody>
+										</Panel>
 									</div>
-								);
-							}
+								</div>
+							) }
+
+							{ values.refund_tos_visible && (
+								<CheckboxControl
+									label={
+										<span className="gla-pre-launch-checklist__checkbox_popover">
+											<span className="checkbox-label">
+												{ __(
+													'Confirm a refund policy and terms of service are visible on your online store.',
+													'google-listings-and-ads'
+												) }
+											</span>
+										</span>
+									}
+									{ ...getInputProps( 'refund_tos_visible' ) }
+								/>
+							) }
+
+							{ ! values.contact_info_visible && (
+								<div className="gla-pre-launch-checklist__checkbox">
+									<CheckboxControl
+										{ ...getInputProps(
+											'contact_info_visible'
+										) }
+									></CheckboxControl>
+									<div className="panel">
+										<Panel>
+											<PanelBody
+												title={ __(
+													"Confirm your store's phone number, email and/or address are visible on your website",
+													'google-listings-and-ads'
+												) }
+												initialOpen={ true }
+												onToggle={ getPanelToggleHandler(
+													'contact_info_visible',
+													'pre-launch-checklist',
+													'onboarding-policy-check'
+												) }
+											>
+												<PanelRow>
+													{ __(
+														'Allow your customers to contact you for product inquiries by including contact information on your website (i,e, contact us form, business profile link, social media, email or phone number.',
+														'google-listings-and-ads'
+													) }
+												</PanelRow>
+												<p />
+												<Button
+													isPrimary
+													onClick={ () => {
+														setValue(
+															'contact_info_visible',
+															true
+														);
+													} }
+												>
+													{ __(
+														'Confirm',
+														'google-listings-and-ads'
+													) }
+												</Button>
+											</PanelBody>
+										</Panel>
+									</div>
+								</div>
+							) }
 							{ values.contact_info_visible && (
 								<CheckboxControl
 									label={

@@ -23,6 +23,8 @@ import AppButton from '.~/components/app-button';
 import AppSpinner from '.~/components/app-spinner';
 import PreLaunchChecklist from './pre-launch-checklist';
 import usePolicyCheck from '.~/hooks/usePolicyCheck';
+import checkErrors from './pre-launch-checklist/checkErrors';
+
 
 function _checkErrors() {
 	const errors = {};
@@ -138,7 +140,7 @@ export default function StoreRequirements() {
 		<StepContent>
 			<StepContentHeader
 				title={ __(
-					'Confirm store requirements',
+					'[internal] Confirm store requirements',
 					'google-listings-and-ads'
 				) }
 				description={ __(
@@ -154,7 +156,8 @@ export default function StoreRequirements() {
 					refund_tos_visible: settings.refund_tos_visible,
 					contact_info_visible: settings.contact_info_visible,
 				} }
-				validate={ _checkErrors }
+				// validate={ _checkErrors }
+				validate={ checkErrors }
 				onChange={ handleChangeCallback }
 				onSubmit={ handleSubmitCallback }
 			>
@@ -169,25 +172,7 @@ export default function StoreRequirements() {
 
 					return (
 						<>
-							<ContactInformation
-								onPhoneNumberVerified={ () =>
-									setPhoneNumberReady( true )
-								}
-							/>
 							<PreLaunchChecklist formProps={ formProps } />
-							<StepContentFooter>
-								<AppButton
-									isPrimary
-									loading={ completing }
-									disabled={ ! isReadyToComplete }
-									onClick={ handleSubmit }
-								>
-									{ __(
-										'Complete setup',
-										'google-listings-and-ads'
-									) }
-								</AppButton>
-							</StepContentFooter>
 						</>
 					);
 				} }

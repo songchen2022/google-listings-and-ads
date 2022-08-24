@@ -7,14 +7,13 @@
 		.help-popover {
 			vertical-align: text-bottom;
 		}
+
 	}
 
-	#checkbox {
+	.gla-pre-launch-checklist__checkbox {
 		display: flex;
 		justify-content: stretch;
 
-		#panel {
-			min-width: 600px;
-		}
 	}
+
 }
