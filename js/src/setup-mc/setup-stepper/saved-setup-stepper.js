@@ -61,56 +61,65 @@ const SavedSetupStepper = ( { savedStep, onRefetchSavedStep = () => {} } ) => {
 	return (
 		<Stepper
 			className="gla-setup-stepper"
-			currentStep={ step }
+			currentStep={ stepNameKeyMap.store_requirements }
 			steps={ [
-				{
-					key: stepNameKeyMap.accounts,
-					label: __(
-						'Set up your accounts',
-						'google-listings-and-ads'
-					),
-					content: (
-						<SetupAccounts
-							onContinue={ handleSetupAccountsContinue }
-						/>
-					),
-					onClick: handleStepClick,
-				},
-				{
-					key: stepNameKeyMap.target_audience,
-					label: __(
-						'Choose your audience',
-						'google-listings-and-ads'
-					),
-					content: (
-						<ChooseAudience
-							onContinue={ handleChooseAudienceContinue }
-						/>
-					),
-					onClick: handleStepClick,
-				},
-				{
-					key: stepNameKeyMap.shipping_and_taxes,
-					label: __(
-						'Configure your product listings',
-						'google-listings-and-ads'
-					),
-					content: (
-						<SetupFreeListings
-							onContinue={ handleSetupListingsContinue }
-						/>
-					),
-					onClick: handleStepClick,
-				},
 				{
 					key: stepNameKeyMap.store_requirements,
 					label: __(
-						'Confirm store requirements',
+						'[DEBUG] Confirm store requirements',
 						'google-listings-and-ads'
 					),
 					content: <StoreRequirements />,
 					onClick: handleStepClick,
 				},
+				// {
+				// 	key: stepNameKeyMap.accounts,
+				// 	label: __(
+				// 		'Set up your accounts',
+				// 		'google-listings-and-ads'
+				// 	),
+				// 	content: (
+				// 		<SetupAccounts
+				// 			onContinue={ handleSetupAccountsContinue }
+				// 		/>
+				// 	),
+				// 	onClick: handleStepClick,
+				// },
+				// {
+				// 	key: stepNameKeyMap.target_audience,
+				// 	label: __(
+				// 		'Choose your audience',
+				// 		'google-listings-and-ads'
+				// 	),
+				// 	content: (
+				// 		<ChooseAudience
+				// 			onContinue={ handleChooseAudienceContinue }
+				// 		/>
+				// 	),
+				// 	onClick: handleStepClick,
+				// },
+				// {
+				// 	key: stepNameKeyMap.shipping_and_taxes,
+				// 	label: __(
+				// 		'Configure your product listings',
+				// 		'google-listings-and-ads'
+				// 	),
+				// 	content: (
+				// 		<SetupFreeListings
+				// 			onContinue={ handleSetupListingsContinue }
+				// 		/>
+				// 	),
+				// 	onClick: handleStepClick,
+				// },
+				// {
+				// 	key: stepNameKeyMap.store_requirements,
+				// 	label: __(
+				// 		'Confirm store requirements',
+				// 		'google-listings-and-ads'
+				// 	),
+				// 	content: <StoreRequirements />,
+				// 	onClick: handleStepClick,
+				// },
 			] }
 		/>
 	);
