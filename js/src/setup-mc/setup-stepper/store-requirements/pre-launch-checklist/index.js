@@ -74,11 +74,12 @@ const PreLaunchChecklist = ( props ) => {
 								<div className="gla-pre-launch-checklist__checkbox">
 									<CheckboxControl
 										{ ...getInputProps( 'website_live' ) }
+										disabled={ true }
 									></CheckboxControl>
 									<Panel>
 										<PanelBody
 											title={ __(
-												'My store is live and accessible to all users',
+												'Confirm your store is live and accessible to all users',
 												'google-listings-and-ads'
 											) }
 											initialOpen={ true }
@@ -150,7 +151,7 @@ const PreLaunchChecklist = ( props ) => {
 									<Panel>
 										<PanelBody
 											title={ __(
-												'I have a complete checkout process.',
+												'Confirm you have a complete checkout process.',
 												'google-listings-and-ads'
 											) }
 											initialOpen={ true }
@@ -285,7 +286,7 @@ const PreLaunchChecklist = ( props ) => {
 										<span className="gla-pre-launch-checklist__checkbox_popover">
 											<span className="checkbox-label">
 												{ __(
-													'Confirm you have a secure checkout process.',
+													'I have a secure checkout process.',
 													'google-listings-and-ads'
 												) }
 											</span>
@@ -361,7 +362,7 @@ const PreLaunchChecklist = ( props ) => {
 										<span className="gla-pre-launch-checklist__checkbox_popover">
 											<span className="checkbox-label">
 												{ __(
-													'Confirm a refund policy and terms of service are visible on your online store.',
+													'My refund policy and terms of service are visible on my online store.',
 													'google-listings-and-ads'
 												) }
 											</span>
@@ -422,7 +423,7 @@ const PreLaunchChecklist = ( props ) => {
 										<span className="gla-pre-launch-checklist__checkbox_popover">
 											<span className="checkbox-label">
 												{ __(
-													"Confirm your store's phone number, email and/or address are visible on your website.",
+													"My store's phone number, email and/or address are visible on your website.",
 													'google-listings-and-ads'
 												) }
 											</span>
