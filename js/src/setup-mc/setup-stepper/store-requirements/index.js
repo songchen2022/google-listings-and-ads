@@ -96,7 +96,7 @@ export default function StoreRequirements() {
 		<StepContent>
 			<StepContentHeader
 				title={ __(
-					'Confirm store requirements',
+					'[internal] Confirm store requirements',
 					'google-listings-and-ads'
 				) }
 				description={ __(
@@ -105,13 +105,15 @@ export default function StoreRequirements() {
 				) }
 			/>
 			<Form
-				initialValues={ {
-					website_live: settings.website_live,
-					checkout_process_secure: settings.checkout_process_secure,
-					payment_methods_visible: settings.payment_methods_visible,
-					refund_tos_visible: settings.refund_tos_visible,
-					contact_info_visible: settings.contact_info_visible,
-				} }
+				initialValues={
+					{
+						// website_live: true,
+						// checkout_process_secure: true,
+						// payment_methods_visible: true,
+						// refund_tos_visible: true,
+						// contact_info_visible: true,
+					}
+				}
 				validate={ checkErrors }
 				onChange={ handleChangeCallback }
 				onSubmit={ handleSubmitCallback }
@@ -127,25 +129,7 @@ export default function StoreRequirements() {
 
 					return (
 						<>
-							<ContactInformation
-								onPhoneNumberVerified={ () =>
-									setPhoneNumberReady( true )
-								}
-							/>
 							<PreLaunchChecklist formProps={ formProps } />
-							<StepContentFooter>
-								<AppButton
-									isPrimary
-									loading={ completing }
-									disabled={ ! isReadyToComplete }
-									onClick={ handleSubmit }
-								>
-									{ __(
-										'Complete setup',
-										'google-listings-and-ads'
-									) }
-								</AppButton>
-							</StepContentFooter>
 						</>
 					);
 				} }
